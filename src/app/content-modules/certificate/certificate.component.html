@@ -1,0 +1,23 @@
+<div class="border-pattern" id="contentToConvert">
+        <div class="content">
+                <div class="inner-content">
+                        <h1>Certificate</h1>
+                        <h2>of Excellence
+                                <hr>
+                        </h2>
+                        <h3>This Certificate Is Proudly Presented To</h3>
+                        <p><b>{{Student_Name}}</b></p>
+                        <p><strong>{{School_Name}}</strong></p>
+                        <p>Total Mark: {{Percentage}}%</p>
+                        <div class="text-end ">
+                                <h3 class="me-5">On</h3>
+                                <p>{{Today_Date | date}}</p>
+                                <div class="badge"> </div>
+                        </div>
+                </div>
+        </div>
+</div>
+
+<div class="">
+        <input class="mb-5" type="button" value="Download" (click)="captureScreen()" />
+</div>

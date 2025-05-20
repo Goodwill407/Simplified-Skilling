@@ -1,0 +1,452 @@
+<div class="sidebar">
+    <img class="m-3" src="../assets/icons/Head.png">
+    <!-- For School only -->
+    <!-- <button class="btn m-2" *ngIf="role == 'school'" routerLink="/dashboard/school-dashboard" routerLinkActive="active">
+        Dashboard
+    </button> -->
+    <!-- <button class="btn m-2" *ngIf="role == 'school'" routerLink="/dashboard/add-student" routerLinkActive="active">
+        Student
+    </button> -->
+    <!-- <button class="btn m-2" *ngIf="role == 'school'" routerLink="/dashboard/addmission" routerLinkActive="active">
+        Admission
+    </button>
+    <button class="btn m-2" *ngIf="role == 'school'" routerLink="/dashboard/add-staff" routerLinkActive="active">
+        Staff
+    </button>
+    <button class="btn m-2" *ngIf="role == 'school'" routerLink="/dashboard/assign-teacher" routerLinkActive="active">
+        Assign teacher
+    </button>
+    <button class="btn m-2" *ngIf="role == 'school'" routerLink="/dashboard/student-attendance" routerLinkActive="active">
+        Attendance
+    </button>
+    <button class="btn m-2" *ngIf="role == 'school'" routerLink="/dashboard/quiz-report" routerLinkActive="active">
+        Quiz report
+    </button>
+    <button class="btn m-2" *ngIf="role == 'school'" routerLink="/dashboard/attendance-report" routerLinkActive="active">
+        Attandance
+    </button>
+    <div class="accordion-item">
+        <h1 class="accordion-header" id="flush-headingFour">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"  *ngIf="role == 'school'"
+                (click)="collideToggleSwitchFnc()" data-bs-target="#flush-collapseFour" aria-expanded="false"
+                aria-controls="flush-collapseFour" #flushCollapseFour><span class="ms-2 mt-2" *ngIf="toggleSwitch">Student Information</span>
+                Student Information
+            </button>
+        </h1>
+        <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour"
+            data-bs-parent="#accordionFlushExample">
+            <button class="btn m-2" *ngIf="role == 'school'" routerLink="/dashboard/student-addmission" routerLinkActive="active">
+                Student Add
+            </button>
+        </div>
+        <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour"
+            data-bs-parent="#accordionFlushExample">
+            <button class="btn m-2"  *ngIf="role == 'school'"  routerLink="/dashboard/add-student" routerLinkActive="active">
+                View Student 
+            </button>
+        </div>
+        <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour"
+            data-bs-parent="#accordionFlushExample">
+            <button class="btn m-2"  *ngIf="role == 'school'"  routerLink="/dashboard/student-left-reason" routerLinkActive="active">
+                Student Left 
+            </button>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h1 class="accordion-header" id="flush-headingThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"  *ngIf="role == 'school'"
+                (click)="collideToggleSwitchFnc()" data-bs-target="#flush-collapseThree" aria-expanded="false"
+                aria-controls="flush-collapseThree" #flushCollapseThree><span class="ms-2 mt-2" *ngIf="toggleSwitch">Teacher</span>
+                Teacher Information                
+            </button>
+        </h1>
+        <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree"
+            data-bs-parent="#accordionFlushExample">
+            <button class="btn m-2" *ngIf="role == 'school'" routerLink="/dashboard/teacheradd" routerLinkActive="active">
+                Teacher Add
+            </button>
+        </div>
+        <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree"
+            data-bs-parent="#accordionFlushExample">
+            <button class="btn m-2"  *ngIf="role == 'school'"  routerLink="/dashboard/teacherview" routerLinkActive="active">
+                View Teacher 
+            </button>
+        </div>
+        <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree"
+            data-bs-parent="#accordionFlushExample">
+            <button class="btn m-2"  *ngIf="role == 'school'"  routerLink="/dashboard/teacher-leave" routerLinkActive="active">
+                Teacher Leave
+            </button>
+        </div>
+    </div> -->
+   
+    <!-- For Teacher only -->
+    <!-- <button class="btn m-2" *ngIf="role == 'teacher'" routerLink="/dashboard/teacher-dashboard" routerLinkActive="active">
+        Dashboard
+    </button>
+    <button class="btn m-2" *ngIf="role == 'teacher'" routerLink="/dashboard/std-attendance" routerLinkActive="active">
+        Attendance
+    </button>
+    <button class="btn m-2" *ngIf="role == 'teacher'" routerLink="/dashboard/quiz-report" routerLinkActive="active">
+        Quiz report
+    </button>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"  *ngIf="role == 'teacher'"
+                (click)="collideToggleSwitchFnc()" data-bs-target="#flush-collapseThree" aria-expanded="false"
+                aria-controls="flush-collapseThree" #flushCollapseThree>
+                <img src="../assets/icons/icon4.png" style="filter: brightness(0.6);">
+                <span class="ms-2 mt-2" *ngIf="toggleSwitch">Teacher</span>
+            </button>
+        </h2>
+        <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree"
+            data-bs-parent="#accordionFlushExample">
+            <button class="btn m-2" *ngIf="role == 'teacher'" routerLink="/dashboard/" routerLinkActive="active">
+                Teacher Add
+            </button>
+        </div>
+        <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree"
+            data-bs-parent="#accordionFlushExample">
+            <button class="btn m-2"  *ngIf="role == 'teacher'"  routerLink="/dashboard/teacherview" routerLinkActive="active">
+                View Teacher 
+            </button>
+        </div>
+    </div> -->
+
+    <!-- For Block only -->
+    <!-- <button class="btn m-2" *ngIf="role == 'block'" routerLink="/dashboard/block-dashboard" routerLinkActive="active">
+        Dashboard
+    </button>
+    <button class="btn m-2" *ngIf="role == 'block'" routerLink="/dashboard/school-details" routerLinkActive="active">
+        School
+    </button>
+    <button class="btn m-2" *ngIf="role == 'block'" routerLink="/dashboard/block-student-attendance" routerLinkActive="active">
+        Attendance
+    </button>
+    <button class="btn m-2" *ngIf="role == 'block'" routerLinkActive="active">
+        Quiz report
+    </button> -->
+
+    <!-- For Students only -->
+    <!-- <button class="btn m-2" *ngIf="role == 'student'" routerLink="/dashboard/attend-quiz" routerLinkActive="active">
+        Quiz
+    </button>
+    <button class="btn m-2" *ngIf="role == 'student'" routerLink="/dashboard/student-quiz-report" routerLinkActive="active">
+        Quiz report
+    </button>
+    <button class="btn m-2" *ngIf="role == 'student'" routerLink="/dashboard/student-attendance-report" routerLinkActive="active">
+        Attendance report
+    </button> -->
+
+    <div class="accordion accordion-flush" id="accordionFlushExample" *ngIf="role=='superadmin'">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    (click)="collideToggleSwitchFnc()" data-bs-target="#flushCollapseOne" aria-expanded="false"
+                    aria-controls="flushCollapseOne" #flushCollapseOne>
+                    <img src="../assets/icons/icon5.png" style="filter: brightness(0.6);">
+                    <span class="ms-2 mt-2" *ngIf="toggleSwitch">Masters</span>
+                </button>
+            </h2>
+            <div id="flushCollapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div>
+                    <button class="btn m-2 " routerLink="/dashboard" routerLinkActive="active">
+                        Board
+                    </button>
+                    <button class="btn m-2 " routerLink="/dashboard/medium-master" routerLinkActive="active">
+                        Medium
+                    </button>
+                    <button class="btn m-2" routerLink="/dashboard/class-master" routerLinkActive="active">
+                        Class
+                    </button>
+                    <button class="btn m-2" routerLink="/dashboard/subject-master" routerLinkActive="active">
+                        Subject
+                    </button>
+                    <button class="btn m-2" routerLink="/dashboard/book-master" routerLinkActive="active">
+                        Book
+                    </button>
+                    <button class="btn m-2" routerLink="/dashboard/chapter-master" routerLinkActive="active">
+                        Chapter
+                    </button>
+                    <button class="btn m-2" routerLink="/dashboard/lesson-master" routerLinkActive="active">
+                        Lesson
+                    </button>
+                    <!-- <button class="btn m-2" routerLink="/dashboard/mapping" routerLinkActive="active">
+                        Mapping
+                    </button>
+                    <button class="btn m-2" routerLink="/dashboard/pincode" routerLinkActive="active">
+                        searchPIn
+                    </button> -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    (click)="collideToggleSwitchFnc()" data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                    aria-controls="flush-collapseTwo" #flushCollapseTwo>
+                    <img src="../assets/icons/icon6.png" style="filter: brightness(0.6);">
+                    <span class="ms-2 mt-2" *ngIf="toggleSwitch">Content</span>
+                </button>
+            </h2>
+            <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+                data-bs-parent="#accordionFlushExample">
+                <div>
+                    <button class="btn m-2" routerLink="/dashboard/videos" routerLinkActive="active">
+                        Videos
+                    </button>
+                    <button class="btn m-2" routerLink="/dashboard/plan-videos" routerLinkActive="active">
+                        Plan Videos
+                    </button>
+                    <button class="btn m-2" routerLink="/dashboard/quiz" routerLinkActive="active">
+                        Quiz
+                    </button>
+                    <button class="btn m-2" routerLink="/dashboard/e-Book" routerLinkActive="active">
+                        E-Book
+                    </button>
+                    <button class="btn m-2" routerLink="/dashboard/quick-recap" routerLinkActive="active">
+                        Quick recap
+                    </button>
+                    <button class="btn m-2" routerLink="/dashboard/homework" routerLinkActive="active">
+                        Homework
+                    </button>
+                </div>
+            </div>
+        </div>
+    
+
+        
+
+        <!-- <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    (click)="collideToggleSwitchFnc()" data-bs-target="#flush-collapseFour" aria-expanded="false"
+                    aria-controls="flush-collapseFour" #flushCollapseFour>
+                    <img src="../assets/icons/icon5.png" style="filter: brightness(0.6);">
+                    <span class="ms-2 mt-2" *ngIf="toggleSwitch">SARAL</span>
+                </button>
+            </h2>
+            <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/saral" routerLinkActive="active">
+                    Form
+                </button>
+            </div>
+        </div> -->
+        
+        <!-- <div class="accordion-item">
+            <h2 class="accordion-header" id="flushCollapseSix">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    (click)="collideToggleSwitchFnc()" data-bs-target="#flush-collapseSix" aria-expanded="false"
+                    aria-controls="flush-collapseSix" #flushCollapseSix>
+                    <img src="../assets/icons/icon6.png" style="filter: brightness(0.6);">
+                    <span class="ms-2 mt-2" *ngIf="toggleSwitch">Student Master</span>
+                </button>
+            </h2>
+            <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flushCollapseSix"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/social-category" routerLinkActive="active">
+                    Social Category
+                </button>
+            </div>
+            <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flushCollapseSix"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/studenttype" routerLinkActive="active">
+                    Student Type
+                </button>
+            </div>
+            <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flushCollapseSix"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/student-minority-group" routerLinkActive="active">
+                    Student Minority Group
+                </button>
+            </div>
+            <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flushCollapseSix"
+              data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/studentStatus" routerLinkActive="active">
+                    Student Status
+                </button>
+            </div>
+            <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flushCollapseSix"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/studentAdmit" routerLinkActive="active">
+                Student Admit
+                </button>
+            </div>
+            <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flushCollapseSix"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/appliedapprenticeship" routerLinkActive="active">
+                Apprenticeship
+                </button>
+            </div>
+            <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flushCollapseSix"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/studentsection" routerLinkActive="active">
+                Section 
+                </button>
+            </div>
+        </div>
+        
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-collapseFive">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    (click)="collideToggleSwitchFnc()" data-bs-target="#flush-collapseFive" aria-expanded="false"
+                    aria-controls="flush-collapseFive" #flushCollapseFive >
+                    <img src="../assets/icons/icon7.png" style="filter: brightness(0.6);">
+                    <span class="ms-2 mt-2" *ngIf="toggleSwitch">Udise-Master1</span>
+                </button>
+            </h2>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/state" routerLinkActive="active">
+                    State
+                </button>
+            </div>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/district" routerLinkActive="active">
+                    District
+                </button>
+            </div>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/academicsession" routerLinkActive="active">
+                    Academic Session
+                </button>
+            </div>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/school-location" routerLinkActive="active">
+                    School Location
+                </button>
+            </div>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/inchargetype" routerLinkActive="active">
+                    In Charge Type
+                </button>
+            </div>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/schoolcategory" routerLinkActive="active">
+                    School Category
+                </button>
+            </div>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/residentialschool" routerLinkActive="active">
+                    Residential School
+                </button>
+            </div>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/managementgroupoftheschool" routerLinkActive="active">
+                    Management Group
+                </button>
+            </div>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+            data-bs-parent="#accordionFlushExample">
+            <button class="btn m-2" routerLink="/dashboard/management-group-code-school" routerLinkActive="active">
+                Management Code
+            </button>
+            </div>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+            data-bs-parent="#accordionFlushExample">
+            <button class="btn m-2" routerLink="/dashboard/managementadministype" routerLinkActive="active">
+                Administration Type
+            </button>
+            </div>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/respondenttype" routerLinkActive="active">
+                    Respondent type
+                </button>
+            </div>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/specialschool" routerLinkActive="active">
+                    Special School
+                </button>
+            </div>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/safetyandsecurity" routerLinkActive="active">
+                    Safety & Security
+                </button>
+            </div>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/internettype" routerLinkActive="active">
+                    Internet Type
+                </button>
+            </div>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/specialEducator" routerLinkActive="active">
+                Special Educator
+                </button>
+            </div>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/laboratories" routerLinkActive="active">
+                Laboratories
+                </button>
+            </div>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/academicstream" routerLinkActive="active">
+                Academic Stream
+                </button>
+            </div>            
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/schoolBuilding" routerLinkActive="active">
+                School Building
+                </button>
+            </div>
+                <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                    data-bs-parent="#accordionFlushExample">
+                    <button class="btn m-2" routerLink="/dashboard/ictmodelschool" routerLinkActive="active">
+                    ICT Model School
+                    </button>
+                </div>
+                <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                    data-bs-parent="#accordionFlushExample">
+                    <button class="btn m-2" routerLink="/dashboard/typeofict" routerLinkActive="active">
+                    Type of ICT
+                    </button>
+                </div>
+                <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-collapseFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="/dashboard/mediumofschool" routerLinkActive="active">
+                Medium of School
+                </button>
+            </div>
+        </div>     -->
+        <!-- == -->
+        <!-- <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingFive">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    (click)="collideToggleSwitchFnc()" data-bs-target="#flush-collapseFive" aria-expanded="false"
+                    aria-controls="flush-collapseFive" #flushCollapseFive>
+                    <img src="../assets/icons/icon8.png" style="filter: brightness(0.6);">
+                    <span class="ms-2 mt-2" *ngIf="toggleSwitch">SARAL</span>
+                </button>
+            </h2>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive"
+                data-bs-parent="#accordionFlushExample">
+                <button class="btn m-2" routerLink="school-infrastructure" routerLinkActive="active">
+                    school-infra
+                </button>
+                <button class="btn m-2" routerLink="asset-demolished" routerLinkActive="active">
+                    demolished
+                </button>
+                <button class="btn m-2" routerLink="add-asset" routerLinkActive="active">
+                    add-asset
+                </button>
+            </div>
+        </div>-->
+
+    </div>
+</div> 

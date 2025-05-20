@@ -1,0 +1,216 @@
+<div class="heading p-3">
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Subject Master</h5>
+            <p class="sub-heading">Setup &#8226; <span>Subject Master</span></p>
+        </div>
+        <div class="offset-md-3 col-md-3">
+            <input class="form-control search-bar" [(ngModel)]="searchBox" (ngModelChange)="onSearchChange()" placeholder="Search">
+        </div>
+    </div>
+</div>
+
+<div class="card-body pb-3">
+    <h4 class="heading px-4"><img class="pb-1 me-2" src="../../../assets/icons/minus-squared.png"> Create Subject</h4>
+    <div class="row m-0">
+        <div class="col-md-6 p-2">
+            <div class="card px-4 py-3">
+                <div class="text-area">
+                    <form [formGroup]="subjectForm" (ngSubmit)="submitForm()">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <label for="" *ngIf="formType == 'Update'" class="mt-3">Board</label>
+                                <select formControlName="boardId" class="form-select"
+                                    [ngClass]="{ 'is-invalid': submitted && f.boardId.errors, 'mt-0': formType == 'Update', 'mt-3': formType != 'Update'}">
+                                    <option value="null" disabled selected>Select Board </option>
+                                    <option value="{{board.id}}" *ngFor="let board of allBoards">{{board.name}}</option>
+                                </select>
+                                <div *ngIf="submitted && f.boardId.errors" class="invalid-feedback">
+                                    <div *ngIf="f.boardId.errors.required">Board is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-9">
+                                <label for="" *ngIf="formType == 'Update'" class="mt-3">Medium</label>
+                                <select formControlName="mediumId" class="form-select"
+                                    [ngClass]="{ 'is-invalid': submitted && f.mediumId.errors, 'mt-0': formType == 'Update', 'mt-3': formType != 'Update'}">
+                                    <option value="null" disabled selected>Select Medium </option>
+                                    <option value="{{medium.id}}" *ngFor="let medium of allMediums">{{medium.name}}
+                                    </option>
+                                </select>
+                                <div *ngIf="submitted && f.mediumId.errors" class="invalid-feedback">
+                                    <div *ngIf="f.mediumId.errors.required">Medium is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-9">
+                                <label for="" *ngIf="formType == 'Update'" class="mt-3">Class</label>
+                                <select formControlName="classId" class="form-select"
+                                    [ngClass]="{ 'is-invalid': submitted && f.classId.errors, 'mt-0': formType == 'Update', 'mt-3': formType != 'Update'}">
+                                    <option value="null" disabled selected>Select Class </option>
+                                    <option value="{{class.id}}" *ngFor="let class of allClasses">{{class.className}}
+                                    </option>
+                                </select>
+                                <div *ngIf="submitted && f.classId.errors" class="invalid-feedback">
+                                    <div *ngIf="f.classId.errors.required">Class is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <label for="" *ngIf="formType == 'Update'" class="mt-3">Subject</label>
+                                <input class="form-control" formControlName="name" placeholder="Enter Subject Name"
+                                    [ngClass]="{'is-invalid':submitted && f.name.errors, 'mt-0': formType == 'Update', 'mt-3': formType != 'Update'}">
+                                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                                    <div *ngIf="f.name.errors.required">Subject is required</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="" *ngIf="formType == 'Update'" class="mt-3">Code</label>
+                                <input type="text" placeholder="Enter Code" class="form-control px-2" formControlName="code" 
+                                [ngClass]="{'is-invalid':submitted && f.code.errors, 'mt-0': formType == 'Update', 'mt-3': formType != 'Update'}">
+                                <!-- oninput="this.value = this.value.replace(/[^0-9]/g, '');" for strict onput of number-->
+                                <div *ngIf="submitted && f.code.errors" class="invalid-feedback">
+                                    <div *ngIf="f.code.errors.required">Code is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <label for="" *ngIf="formType == 'Update'" class="mt-3">Description</label>
+                                <textarea formControlName="description" class="form-control"
+                                    placeholder="Enter Description" 
+                                    [ngClass]="{'is-invalid': submitted && f.description.errors, 'mt-0': formType == 'Update', 'mt-3': formType != 'Update'}"></textarea>
+                                <!-- <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                    <div *ngIf="f.description.errors.required">Description is required</div>
+                                </div> -->
+                            </div>
+                        </div>                        
+                        <!-- Thumbnail Upload -->
+                        <div class="row">
+                            <div class="col-md-9">
+                            <label class="mt-4">Thumbnail</label>
+                            <input type="file" class="form-control" #thumbnailInput
+                                (change)="onFileChange($event, 'thumbnail')" accept="image/*">
+                            </div>
+                            <div class="col-md-3 mt-3">
+                            <img [src]="thumbnailPreview || subjectForm.value.thumbnail"
+                                *ngIf="thumbnailPreview || subjectForm.value.thumbnail"
+                                class="preview-image">
+                            </div>
+                        </div>
+                        
+                        <!-- Poster Upload -->
+                        <div class="row">
+                            <div class="col-md-9">
+                            <label class="mt-4">Poster</label>
+                            <input class="form-control" #posterInput type="file" 
+                                    (change)="onFileChange($event, 'poster')" accept="image/*">
+                            </div>
+                            <div class="col-md-3 mt-3">
+                            <img [src]="posterPreview || subjectForm.value.poster"
+                                *ngIf="posterPreview || subjectForm.value.poster"
+                                class="preview-image">
+                            </div>
+                        </div>
+                        
+
+                        <div class="from-group action-buttons">
+                            <button class="btn save-btn" *ngIf="formType == 'Save'">Save</button>
+                            <button class="btn save-btn" *ngIf="formType == 'Update'">Update</button>
+                            <button class="btn cancel-btn" type="button" (click)="cancel()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2nd col -->
+        <div class="col-md-6 p-2">
+            <div class="card p-3">
+                <div class="row">
+                    <div class="col-md-4 mb-2">
+                        <select class="form-select" [(ngModel)]="boardId" required>
+                            <option value="" disabled selected>Select Board </option>
+                            <option value="{{board.id}}" *ngFor="let board of allBoards">{{board.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <select class="form-select" [(ngModel)]="mediumId" required>
+                            <option value="" disabled selected>Select Medium </option>
+                            <option value="{{medium.id}}" *ngFor="let medium of allMediums">{{medium.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select" [(ngModel)]="classId" required>
+                            <option value="" disabled selected>Select Class </option>
+                            <option value="{{class.id}}" *ngFor="let class of allClasses">{{class.className}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col">
+                        <button class="float-end btn save-btn" [disabled]="!boardId || !mediumId || !classId" (click)="go()">Go</button>
+                    </div>
+                </div>
+                <hr>
+                <table class="table table-responsive table-hover" *ngIf="allSubjects && allSubjects.length > 0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Subject Name</th>
+                            <th class="text-center">Code</th>
+                            <th class="text-center">Thumbnail</th>
+                            <th class="text-center">Poster</th>
+                            <th>
+                                <div class="action-column text-center">
+                                    Action
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of allSubjects  | paginate: paginationConfig ;let i = index"> 
+                            <!-- | customFilter:searchBox -->
+                            <td class="subject-name">{{data.name}}</td>
+                            <td class="text-center">{{data.code}}</td>
+                            <td class="text-center"><img [src]="data.thumbnail" style="height: 35px; border-radius: 4px;" alt=""></td>
+                            <td class="text-center"><img [src]="data.poster" style="height: 35px; border-radius: 4px;" alt=""></td>
+                            <td class="text-center action-column">
+                                <div class="float-center table-action-btn">
+                                    <button class="edit" type="button" (click)="editSubjectData(data)"><i
+                                            class="bi bi-pencil-fill"></i></button> &nbsp;
+                                    <button class="delete" type="button" 
+                                            [disabled]="isUpdateMode"
+                                            [ngClass]="{'disabled-blur': isUpdateMode}"
+                                    (click)="deleteSubjectData(data)"><i
+                                            class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row" *ngIf="allSubjects && allSubjects.length > 0">
+                    <div class="col-md-2" >
+                        <select class="form-select" (change)="selectPaginationSize($event)">
+                            <option value="10" selected>10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                    <div class="col-md-10 pt-2">
+                        <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+                    </div>
+                </div>
+                <div class="text-center" *ngIf="!allSubjects || allSubjects?.length == 0">
+                    No Subjects Found
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

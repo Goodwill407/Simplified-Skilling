@@ -1,0 +1,57 @@
+.save-btn,.addMore-btn{
+    background-color: #33306D;
+    color: aliceblue;
+    border-style: none;
+    font-size: small;
+    width: 120px;
+
+}
+.cancelbtn{
+    background-color:#FFF5F8;
+    color: #F1416C;
+    border-style: none;
+    font-size: small;
+    width: 120px;
+}
+
+/* For the Board Name column to wrap the text */
+.clas-name {
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+}
+
+/* For the Action column to have a fixed width */
+.action-column {
+    width: 120px; /* Set a fixed width for the Action column */
+}
+
+/* For Chrome, Safari, and newer versions of Edge */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Add this CSS for blur effect */
+.disabled-blur {
+  filter: blur(3px);  /* Adjust the blur intensity as needed */
+  pointer-events: none; /* Prevent clicks on the button */
+}
+
+.delete[disabled] {
+cursor: not-allowed; /* Show not-allowed cursor when button is disabled */
+}
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.preview-image {
+  height: 120px;   /* Fixed height */
+  width: 100%;     /* Or use fixed width like 150px */
+  object-fit: contain; /* maintains aspect ratio without distortion */
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+

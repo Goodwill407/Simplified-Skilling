@@ -1,0 +1,70 @@
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                    class="img-fluid" alt="Sample image">
+            </div>
+
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 card border-0 p-5" *ngIf="!showPasswordFields">
+                <h3 class="text-center bg-primary text-white p-2">Generate OTP</h3>
+                <form [formGroup]="registrationForm" (ngSubmit)="submitForm()">
+
+                    <div class="form-outline mb-4">
+                        <input type="text" class="form-control" placeholder="Username" formControlName="userName"
+                            [ngClass]="{ 'is-invalid': submitted && f.userName.errors }" />
+                        <div *ngIf="submitted && f.userName.errors" class="invalid-feedback">
+                            <div *ngIf="f.userName.errors.required">Username is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-outline">
+                        <input type="text" class="form-control" formControlName="mobNumber"
+                            [ngClass]="{ 'is-invalid': submitted && f.mobNumber.errors }" placeholder="Mobile number" />
+                        <div *ngIf="submitted && f.mobNumber.errors" class="invalid-feedback">
+                            <div *ngIf="f.mobNumber.errors.required">Mobile number is required</div>
+                            <div *ngIf="f.mobNumber.errors.pattern">Please enter valid mobile number</div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-2 pt-2">
+                        <button type="submit" class="btn btn-success otp-btn">Verify and get OTP</button>
+                    </div>
+
+                </form>
+            </div>
+
+    
+             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 card border-0 p-5" *ngIf="showPasswordFields">
+                <h3 class="text-center bg-primary text-white p-2">Set new password</h3>
+                <form [formGroup]="passwordForm" (ngSubmit)="submitPasswordForm()">
+                    <div class="form-outline mb-4">
+                        <input type="password" class="form-control" placeholder="Set new password"
+                            formControlName="password"
+                            [ngClass]="{ 'is-invalid': passwordSubmitted && p.password.errors }" />
+                        <div *ngIf="passwordSubmitted && p.password.errors" class="invalid-feedback">
+                            <div *ngIf="p.password.errors.required">Password is required</div>
+                            <div *ngIf="p.password.errors.pattern">Atleast 1 Uppercase,
+                                At least 1 Lowercase,
+                                At least 1 Number,
+                                At least 1 Symbol is required</div>
+                        </div>
+                    </div>
+                    <div class="form-outline mb-4">
+                        <input type="password" class="form-control" placeholder="Confirm new password"
+                            formControlName="confirmPassword"
+                            [ngClass]="{ 'is-invalid': passwordSubmitted && p.confirmPassword.errors }" />
+                        <div *ngIf="passwordSubmitted && p.confirmPassword.errors" class="invalid-feedback">
+                            <div *ngIf="p.confirmPassword.errors.required">Confirm password is required</div>
+                            <div *ngIf="p.confirmPassword.errors.incorrect">Password did not match</div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-2 pt-2">
+                        <button type="submit" class="btn btn-success otp-btn">Reset password</button>
+                    </div>
+
+                </form>
+            </div> 
+         </div>
+    </div>
+</section> 

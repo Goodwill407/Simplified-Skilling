@@ -1,0 +1,34 @@
+<div class="ms-5">
+
+
+<form [formGroup]="pincode" (ngSubmit)="SubmitForm()">
+    <div class="row mt-2">
+        <div class="col" style="width: 200px;">
+            <label for="">Search By PinCode</label>
+            <input type="text" class="form-control" formControlName="Pin" placeholder="">
+    
+        </div>
+        <div class="col">
+
+            <button type="submit" class="mt-4">Search</button>
+        </div>
+    </div>
+</form>
+<table class="table table-responsive mt-5"  >
+    <tr>
+        <th>Country</th>
+        <th>State</th>
+        <th>District</th>
+        <th>Name</th>
+        <th>Pincode</th>
+    </tr>
+    <tr *ngFor="let td of allData">
+        <td>{{td.Country}}</td>
+        <td>{{td.State}}</td>
+        <td>{{td.District}}</td>
+        <td>{{td.Name}}</td>
+        <td>{{td.Pincode}}</td>
+        
+    </tr>
+</table>
+</div>

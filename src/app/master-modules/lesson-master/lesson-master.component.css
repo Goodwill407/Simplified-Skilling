@@ -1,0 +1,92 @@
+.drop-container {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px dashed #555;
+    color: #444;
+    cursor: pointer;
+    transition: background .2s ease-in-out, border .2s ease-in-out;
+}
+
+.drop-container:hover {
+    background: #eee;
+    border-color: #111;
+}
+
+.drop-container:hover .drop-title {
+    color: #222;
+}
+
+.drop-title {
+    color: #444;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    transition: color .2s ease-in-out;
+    margin-top: 30px;
+    /* position: absolute; */
+}
+
+#images {
+    display: none;
+}
+
+.invalid-feedback-thumbnail,.invalid-feedback-poster {
+    color: #dc3545;
+    font-size: 0.875em;
+}
+.text-area img{
+    height: 100px !important;
+}
+
+textarea.form-control {
+    height: 150px; /* Adjust the height as needed */
+}
+
+/* For Chrome, Safari, and newer versions of Edge */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* For the book Name column to wrap the text */
+.lesson-name {
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+}
+
+/* For the Action column to have a fixed width */
+.action-column {
+    width: 120px; /* Set a fixed width for the Action column */
+}
+
+/* Add this CSS for blur effect */
+.disabled-blur {
+    filter: blur(3px);  /* Adjust the blur intensity as needed */
+    pointer-events: none; /* Prevent clicks on the button */
+  }
+
+.delete[disabled] {
+cursor: not-allowed; /* Show not-allowed cursor when button is disabled */
+}
+
+.preview-image {
+    height: 120px;   /* Fixed height */
+    width: 100%;     /* Or use fixed width like 150px */
+    object-fit: contain; /* maintains aspect ratio without distortion */
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  

@@ -1,0 +1,46 @@
+<section class="main-section vh-100">
+    <div class="sub-section">
+        <h4 class="text-center p-2 m-2 header">Portals</h4>
+        <div class="container2 bold d-flex align-items-center flex-wrap">
+            <div class="box shadow-sm" [routerLink]="['student-login']" [queryParams]="{portal: 'Student'}">
+                <div class="body">
+                    <div class="imgContainer">
+                        <img src="../assets/icons/student_icon.png" alt="">
+                        <h3 class="fs-5 text-white">Department Portal</h3>
+                    </div>
+                    <div class="content d-flex flex-column align-items-center justify-content-center">
+                        <div class="description-background">
+                            <p class="fs-6">Department Portal description.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box shadow-sm" [routerLink]="['school-login']" [queryParams]="{portal: 'School'}">
+                <div class="body">
+                    <div class="imgContainer">
+                        <img src="../assets/icons/school_icon.png" alt="">
+                        <h3 class="fs-5 text-white">School Portal</h3>
+                    </div>
+                    <div class="content d-flex flex-column align-items-center justify-content-center">
+                        <div class="description-background">
+                            <p class="fs-6">School Portal description.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box shadow-sm" [routerLink]="['login']" [queryParams]="{portal: 'Sanstha'}">
+                <div class="body">
+                    <div class="imgContainer">
+                        <img src="../assets/icons/sanstha_icon.png" alt="">
+                        <h3 class="fs-5 text-white">Sanstha Portal</h3>
+                    </div>
+                    <div class="content d-flex flex-column align-items-center justify-content-center">
+                        <div class="description-background">
+                            <p class="fs-6">Sanstha Portal description.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

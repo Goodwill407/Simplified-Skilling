@@ -1,0 +1,12 @@
+.quiz-text-overflow {
+    max-height: 1.4em; /* Adjust based on line-height */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  .html-preview.expanded .quiz-text-overflow {
+    white-space: normal;
+    max-height: none;
+  }
+  

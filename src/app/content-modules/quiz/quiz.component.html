@@ -1,0 +1,1048 @@
+<div class="heading p-3">
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Question Bank</h5>
+            <p class="sub-heading">Setup &#8226; <span>Question Bank</span></p>
+        </div>
+        <div class="offset-md-3 col-md-3" *ngIf="activeTab === 'view'">
+            <input class="form-control search-bar" [(ngModel)]="searchBox" (ngModelChange)="onSearchChange()" placeholder="Search">
+        </div>
+    </div>
+</div>
+
+<div class="card-body pb-3">
+    <ul class="nav nav-tabs px-4" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="create-tab" data-bs-toggle="tab" data-bs-target="#create" type="button"
+                role="tab" aria-controls="create" aria-selected="true" (click)="setActiveTab('create')">Create</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="bulk-tab" data-bs-toggle="tab" data-bs-target="#bulk" type="button"
+                role="tab" aria-controls="bulk" aria-selected="true" (click)="setActiveTab('bulk')">Bulk Upload</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="view-tab" data-bs-toggle="tab" data-bs-target="#view" type="button" role="tab"
+                aria-controls="view" aria-selected="false" (click)="setActiveTab('view')">View</button>
+        </li>
+    </ul>
+    <div class="tab-content mt-4" id="myTabContent">
+        <div class="tab-pane fade show active" id="create" role="tabpanel" aria-labelledby="create-tab">
+            <h4 class="heading px-4"><img class="pb-1 me-2" src="../../../assets/icons/minus-squared.png"> Add Question
+            </h4>
+            <div class="row m-0">
+                <div class="col-md-12 p-2">
+                    <div class="card px-4 py-3">
+                        <div class="text-area">
+                            <form [formGroup]="quizeForm" (ngSubmit)="submitForm()">
+                                <div class="row mb-2">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-3" formControlName="boardId"
+                                                [ngClass]="{ 'is-invalid': submitted && f.boardId.errors }"
+                                                (change)="getByFilterSubjectDataselect()">
+                                                <option disabled value="null">Select Board</option>
+                                                <option *ngFor="let board of allBoards" value="{{board.id}}">
+                                                    {{board.name}}
+                                                </option>
+                                            </select>
+                                            <div *ngIf="submitted && f.boardId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.boardId.errors.required">Board is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-3" formControlName="mediumId"
+                                                [ngClass]="{ 'is-invalid': submitted && f.mediumId.errors }"
+                                                (change)="getByFilterSubjectDataselect()">
+                                                <option disabled value="null">Select Medium</option>
+                                                <option *ngFor="let medium of allMediums" value="{{medium.id}}">
+                                                    {{medium.name}}
+                                                </option>
+                                            </select>
+                                            <div *ngIf="submitted && f.mediumId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.mediumId.errors.required">Medium is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-3" formControlName="classId"
+                                                [ngClass]="{ 'is-invalid': submitted && f.classId.errors }"
+                                                (change)="getByFilterSubjectDataselect()">
+                                                <option disabled value="null">Select Class</option>
+                                                <option *ngFor="let class of allClasses" value="{{class.id}}">
+                                                    {{class.className}}
+                                                </option>
+                                            </select>
+                                            <div *ngIf="submitted && f.classId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.classId.errors.required">Class is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-3" formControlName="subjectId"
+                                                [ngClass]="{ 'is-invalid': submitted && f.subjectId.errors }"
+                                                (change)="getBookBySubjectId($event,true)">
+                                                <option disabled value="null">Select Subject</option>
+                                                <option *ngFor="let subject of allSubjects" value="{{subject.id}}">
+                                                    {{subject.name}}
+                                                </option>
+                                            </select>
+                                            <div *ngIf="submitted && f.subjectId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.subjectId.errors.required">Subject is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-3" formControlName="bookId"
+                                                [ngClass]="{ 'is-invalid': submitted && f.bookId.errors }"
+                                                (change)="getChapterByBookId($event)">
+                                                <option disabled value="null">Select Book</option>
+                                                <option *ngFor="let book of allbooks" value="{{book.id}}">{{book.name}}
+                                                </option>
+                                            </select>
+                                            <div *ngIf="submitted && f.bookId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.bookId.errors.required">Book is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-3" formControlName="chapterId"
+                                                [ngClass]="{ 'is-invalid': submitted && f.chapterId.errors }" (change)="getLessonsBychapterId($event)">
+                                                <option disabled value="null">Select Chapter</option>
+                                                <option *ngFor="let chapter of allChapters" value="{{chapter.id}}">
+                                                    {{chapter.chapterName}}</option>
+                                            </select>
+                                            <div *ngIf="submitted && f.chapterId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.chapterId.errors.required">Chapter is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="row mb-4">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                          <select
+                                            class="form-select mt-3"
+                                            formControlName="lessonId"
+                                            [ngClass]="{
+                                              'is-invalid': submitted && f.lessonId.errors
+                                            }"
+                                          >
+                                            <option disabled selected value="null">Select Lesson</option>
+                                            <option
+                                              *ngFor="let lesson of allLessons"
+                                              value="{{ lesson.id }}"
+                                            >
+                                              {{ lesson.name }}
+                                            </option>
+                                          </select>
+                                          <div
+                                            *ngIf="submitted && f.lessonId.errors"
+                                            class="invalid-feedback"
+                                          >
+                                            <div *ngIf="f.lessonId.errors.required">
+                                              Lesson is required
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- <div class="row mb-4">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-0" formControlName="lessonId"
+                                                [ngClass]="{ 'is-invalid': submitted && f.lessonId.errors }">
+                                                <option disabled value="null">Select Lession</option>
+                                                <option *ngFor="let lesson of allLession" value="{{lesson.id}}">
+                                                    {{lesson.name}}</option>
+                                            </select>
+                                            <div *ngIf="submitted && f.lessonId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.lessonId.errors.required">Lession is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <hr>
+                                <!-- for qution name used text Editor -->
+                                <div class="row mt-4">
+                                    <div class="form-group">
+                                        <label for="quizName" class="my-2"><strong>Question Name</strong></label>
+                                        <ckeditor formControlName="quizName"
+                                            [ngClass]="{ 'is-invalid': submitted && f.quizName.errors }">
+                                        </ckeditor>
+                                        <div *ngIf="submitted && f.quizName.errors" class="invalid-feedback">
+                                            <div *ngIf="f.quizName.errors.required">Question is required</div>
+                                        </div>
+                                    </div>
+                                    <p *ngIf="isQuestionExist == 'Exist'" class="text-danger fw-bold mt-1 ms-1">Question
+                                        already exist !</p>
+                                    <p *ngIf="isQuestionExist == 'Not exist'" class="text-success fw-bold mt-1 ms-1">
+                                        Question not exist !</p>
+                                </div>
+
+                                <div class="row mt-3 justify-content-end">
+                                    <button class="btn btn-success w-auto me-2" type="button"
+                                        (click)="verifyQuestion()">Verify question
+                                    </button>
+                                </div>
+
+                                <div *ngIf="isQuestionExist == 'Not exist'">
+                                    <!-- <div class="row" formArrayName="options">
+                                        <div *ngFor="let option of options.controls; let i = index"
+                                            class="col-md-6 mt-5">
+                                            <label for="" class="my-2"><strong>Option :{{i+1}}</strong></label>
+                                            <ckeditor [formControlName]="i"
+                                                [ngClass]="{ 'is-invalid': submitted && option.errors }"></ckeditor>
+                                            <div *ngIf="submitted && option.errors" class="invalid-feedback">
+                                                <div *ngIf="option.errors.required">Question is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-5">
+                                        <div class="col-md-4 mb-2">
+                                            <ng-multiselect-dropdown [placeholder]="'Select correct options'"
+                                                [settings]="dropdownSettings" [data]="dropdownList"
+                                                formControlName="correctOptions" class="form-control">
+                                            </ng-multiselect-dropdown>
+                                        </div>
+
+                                        <div class="col-md-4 mb-2">
+                                            <div class="form-group">
+                                                <select class="form-select mt-0" formControlName="types"
+                                                    [ngClass]="{ 'is-invalid': submitted && f.types.errors }">
+                                                    <option disabled value="">Select type</option>
+                                                    <option value="easy">Easy</option>
+                                                    <option value="medium">Medium</option>
+                                                    <option value="hard">Hard</option>
+                                                </select>
+                                                <div *ngIf="submitted && f.types.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.types.errors.required">Lession is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+                                    <!-- Question Type & Level Dropdown -->
+                                    <div class="row mb-4">
+                                        <div class="col-md-2">
+                                            <label><strong>Question Type</strong></label>
+                                            <select class="form-select" formControlName="questionType" 
+                                                    [ngClass]="{ 'is-invalid': submitted && f.questionType.errors }" 
+                                                    (change)="onQuestionTypeChange()">
+                                                <option value="" disabled>Select Question Type</option>
+                                                <option value="1">MCQ</option>
+                                                <option value="2">True/False</option>
+                                            </select>
+                                            <div *ngIf="submitted && f.questionType.errors" class="invalid-feedback">
+                                                <div *ngIf="f.questionType.errors.required">Question Type is required.</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label><strong>Question Level</strong></label>
+                                            <select class="form-select" formControlName="questionLevel" 
+                                                    [ngClass]="{ 'is-invalid': submitted && f.questionLevel.errors }">
+                                                <option value="" disabled>Select Question Level</option>
+                                                <option value="1">Easy</option>
+                                                <option value="2">Medium</option>
+                                                <option value="3">Hard</option>
+                                                <option value="4">Common</option>
+                                            </select>
+                                            <div *ngIf="submitted && f.questionLevel.errors" class="invalid-feedback">
+                                                <div *ngIf="f.questionLevel.errors.required">Question Level is required.</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label><strong>Display Format</strong></label>
+                                            <select class="form-select" formControlName="displayFormat" 
+                                                    [ngClass]="{ 'is-invalid': submitted && f.displayFormat.errors }">
+                                                <option value="" disabled>Select Display Format </option>
+                                                <option value="1">1 - Series</option>
+                                                <option value="2">2 - Cube</option>
+                                            </select>
+                                            <div *ngIf="submitted && f.displayFormat.errors" class="invalid-feedback">
+                                                <div *ngIf="f.displayFormat.errors.required">Display Format is required.</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label><strong>Weightage</strong></label>
+                                            <input type="number" formControlName="weightage" class="form-control" 
+                                                [ngClass]="{ 'is-invalid': submitted && f.weightage.errors }"
+                                                (wheel)="disableScroll($event)" min="0.1" step="0.1">
+                                                <div *ngIf="submitted && f.weightage.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.weightage.errors.required">Weightage is required.</div>
+                                                    <div *ngIf="f.weightage.errors.min">Weightage must be Positive number.</div>
+                                                  </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label><strong>Negative Weightage</strong></label>
+                                            <input type="number" formControlName="negativeWeightage" class="form-control" 
+                                                [ngClass]="{ 'is-invalid': submitted && f.negativeWeightage.errors }"
+                                                (wheel)="disableScroll($event)" min="0" step="0.1">
+                                                <div *ngIf="submitted && f.negativeWeightage.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.negativeWeightage.errors.required">Negative Weightage is required.</div>
+                                                    <div *ngIf="f.negativeWeightage.errors.min">Negative Weightage must be Positive number.</div>
+                                                  </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Options Section (Conditional Rendering) -->
+                                    <div *ngIf="quizeForm.get('questionType')?.value === '1'"> <!-- For MCQ -->
+                                        <div class="row mt-4" formArrayName="options">
+                                            <!-- Options (MCQ) -->
+                                            <div *ngFor="let option of options.controls; let i = index" class="col-md-6 mt-5">
+                                                <label for=""><strong>Option :{{ i + 1 }}</strong></label>
+                                                <ckeditor [formControlName]="i" [ngClass]="{ 'is-invalid': submitted && option.errors }"></ckeditor>
+                                                
+                                                <div *ngIf="submitted && option.errors" class="invalid-feedback">
+                                                    <div *ngIf="option.errors.required">Option {{ i + 1 }} is required.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mt-4">
+                                            <label><strong>Select Correct Options</strong></label>
+                                            <ng-multiselect-dropdown [settings]="dropdownSettings" class="form-select" [data]="dropdownList"
+                                            [ngClass]="{ 'is-invalid': submitted && f.correctOptions.errors }"
+                                                formControlName="correctOptions"></ng-multiselect-dropdown>
+                                            <div *ngIf="submitted && f.correctOptions.errors" class="invalid-feedback">
+                                                <div *ngIf="f.correctOptions.errors.required">Please select at least one correct option.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- For True/False -->
+                                    <div *ngIf="quizeForm.get('questionType')?.value === '2'"> 
+                                        <div class="col-md-4 mt-4">
+                                            <label><strong>Select Correct Answer</strong></label>
+                                            <select class="form-select" formControlName="correctOptionsTF"
+                                                [ngClass]="{ 'is-invalid': submitted && f.correctOptionsTF.errors }">
+                                                <option value="null" disabled>Please Select True or False</option>
+                                                <option value="A">True</option>
+                                                <option value="B">False</option>
+                                            </select>
+                                            <div *ngIf="submitted && f.correctOptionsTF.errors" class="invalid-feedback">
+                                                <div *ngIf="f.correctOptionsTF.errors.required">Please select the correct answer (True/False).</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-5">
+                                        <div class="col-md-6">
+                                            <label for="hint" class="my-2"><strong>Hint</strong></label>
+                                            <ckeditor formControlName="hint"
+                                                [ngClass]="{ 'is-invalid': submitted && f.hint.errors }">
+                                            </ckeditor>
+                                            <div *ngIf="submitted && f.hint.errors" class="invalid-feedback">
+                                                <div *ngIf="f.hint.errors.required">Hint is required</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="explain" class="my-2"><strong>Explain</strong></label>
+                                            <ckeditor formControlName="explain"
+                                                [ngClass]="{ 'is-invalid': submitted && f.explain.errors }">
+                                            </ckeditor>
+                                            <div *ngIf="submitted && f.explain.errors" class="invalid-feedback">
+                                                <div *ngIf="f.explain.errors.required">Explanation is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="from-group action-buttons">
+                                    <button class="btn save-btn" type="button" *ngIf="formType == 'Save'"
+                                        (click)="submitForm()">Save</button>
+                                    <button class="btn save-btn" *ngIf="formType == 'Update'">Update</button>
+                                    <button class="btn cancel-btn" type="button" (click)="cancel()">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Tab of bulk upload -->
+        <div class="tab-pane fade show active" id="bulk" *ngIf="activeTab === 'bulk'" role="tabpanel" aria-labelledby="bulk-tab">
+            <h4 class="heading px-4"><img class="pb-1 me-2" src="../../../assets/icons/minus-squared.png">Questions Bulk Upload </h4>
+            <div class="row m-0">
+                <div class="col-md-12 p-2">
+                    <div class="card px-4 py-3">
+                        <div class="text-area">
+                            <form [formGroup]="quizUploadForm" >
+                                <div class="row mb-2">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-3" formControlName="boardId" 
+                                                (change)="getByFilterSubjectDataselectBulk()">
+                                                <option disabled selected value="null">Select Board</option>
+                                                <option *ngFor="let board of allBoards" value="{{board.id}}">
+                                                    {{board.name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-3" formControlName="mediumId" 
+                                                (change)="getByFilterSubjectDataselectBulk()">
+                                                <option disabled selected value="null">Select Medium</option>
+                                                <option *ngFor="let medium of allMediums" value="{{medium.id}}">
+                                                    {{medium.name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-3" formControlName="classId" 
+                                                (change)="getByFilterSubjectDataselectBulk()">
+                                                <option disabled selected value="null">Select Class</option>
+                                                <option *ngFor="let class of allClasses" value="{{class.id}}">
+                                                    {{class.className}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-3" formControlName="subjectId"
+                                                (change)="getBookBySubjectId($event, true)">
+                                                <option disabled selected value="null">Select Subject</option>
+                                                <option *ngFor="let subject of allSubjects" value="{{subject.id}}">
+                                                    {{subject.name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-3" formControlName="bookId"
+                                                (change)="getChapterByBookId($event)">
+                                                <option disabled selected value="null">Select Book</option>
+                                                <option *ngFor="let book of allbooks" value="{{book.id}}">{{book.name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-3" formControlName="chapterId" (change)="getLessonsBychapterId($event)">
+                                                <option disabled selected value="null">Select Chapter</option>
+                                                <option *ngFor="let chapter of allChapters" value="{{chapter.id}}">
+                                                    {{chapter.chapterName}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                          <select
+                                            class="form-select mt-3"
+                                            formControlName="lessonId"
+                                            [ngClass]="{
+                                              'is-invalid': submitted && f.lessonId.errors
+                                            }"
+                                          >
+                                            <option disabled selected value="null">Select Lesson</option>
+                                            <option
+                                              *ngFor="let lesson of allLessons"
+                                              value="{{ lesson.id }}"
+                                            >
+                                              {{ lesson.name }}
+                                            </option>
+                                          </select>
+                                          <div
+                                            *ngIf="submitted && f.lessonId.errors"
+                                            class="invalid-feedback"
+                                          >
+                                            <div *ngIf="f.lessonId.errors.required">
+                                              Lesson is required
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                </div>
+                                <!-- Bulk Upload Panel Integration -->
+                                <div class="bulk-upload-area mt-4 p-4 border border-primary rounded">
+                                    <!-- <h4 class="mb-3">Bulk Quiz Upload</h4> -->
+                                    <div class="row mb-3">
+                                        <div class="col-md-4">
+                                            <input type="file" #fileInput (change)="onFileChange($event)" class="form-control" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="btn btn-primary mt-4" type="button" (click)="uploadBulkQuiz()">Upload CSV</button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button class="btn btn-outline-primary mt-4" type="button" (click)="downloadSampleFile()">
+                                                Download Sample CSV &darr;
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="uploadedFileName" class="mt-3">
+                                        <strong>Selected File:</strong> {{ uploadedFileName }}
+                                    </div>
+                                    <div *ngIf="duplicatesCount > 0" class="alert alert-warning">
+                                        <strong>Duplicate Questions Found:</strong> {{ duplicatesCount }}<br>
+                                        <strong>Uploaded Questions:</strong> {{ Uploadedcount }}
+                                        <div *ngIf="duplicateQuizzes.length > 0" class="alert alert-warning mt-3">
+                                            <strong>Duplicate Questions which Not Uploaded:</strong>
+                                            <ul>
+                                                <li *ngFor="let question of duplicateQuizzes">{{ question }}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- Display Duplicates List -->
+                                    <div *ngIf="duplicateQuestionsList.length > 0" class="alert alert-warning mt-3">
+                                        <strong>Duplicate Questions Found in Uploaded File:</strong>
+                                        <ul>
+                                            <li *ngFor="let question of duplicateQuestionsList">{{ question }}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- model-view show data -->
+        <div class="tab-pane fade" id="view" role="tabpanel" aria-labelledby="view-tab">
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+            <div class="modal-dialog modal-fullscreen float-end">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Question Editor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cancel()"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="quizeForm" (ngSubmit)="submitForm()">
+                    <!-- Top Dropdowns -->
+                    <div class="row mb-4">
+                        <!-- Board -->
+                        <div class="col-md-2">
+                        <label><strong>Board</strong></label>
+                        <select class="form-select" formControlName="boardId"
+                            [ngClass]="{'is-invalid': submitted && f.boardId.errors}">
+                            <option disabled value="null">Select Board</option>
+                            <option *ngFor="let board of allBoards" [value]="board.id">{{ board.name }}</option>
+                        </select>
+                        <div *ngIf="submitted && f.boardId.errors" class="invalid-feedback">
+                            <div *ngIf="f.boardId.errors.required">Board is required</div>
+                        </div>
+                        </div>
+                        <!-- Medium -->
+                        <div class="col-md-2">
+                        <label><strong>Medium</strong></label>
+                        <select class="form-select" formControlName="mediumId"
+                            [ngClass]="{'is-invalid': submitted && f.mediumId.errors}">
+                            <option disabled value="null">Select Medium</option>
+                            <option *ngFor="let medium of allMediums" [value]="medium.id">{{ medium.name }}</option>
+                        </select>
+                        <div *ngIf="submitted && f.mediumId.errors" class="invalid-feedback">
+                            <div *ngIf="f.mediumId.errors.required">Medium is required</div>
+                        </div>
+                        </div>
+                        <!-- Class -->
+                        <div class="col-md-2">
+                        <label><strong>Class</strong></label>
+                        <select class="form-select" formControlName="classId"
+                            [ngClass]="{'is-invalid': submitted && f.classId.errors}">
+                            <option disabled value="null">Select Class</option>
+                            <option *ngFor="let class of allClasses" [value]="class.id">{{ class.className }}</option>
+                        </select>
+                        <div *ngIf="submitted && f.classId.errors" class="invalid-feedback">
+                            <div *ngIf="f.classId.errors.required">Class is required</div>
+                        </div>
+                        </div>
+                        <!-- Subject -->
+                        <div class="col-md-2">
+                        <label><strong>Subject</strong></label>
+                        <select class="form-select" formControlName="subjectId"
+                            (change)="getBookBySubjectId($event, true)"
+                            [ngClass]="{'is-invalid': submitted && f.subjectId.errors}">
+                            <option disabled value="null">Select Subject</option>
+                            <option *ngFor="let subject of allSubjects" [value]="subject.id">{{ subject.name }}</option>
+                        </select>
+                        <div *ngIf="submitted && f.subjectId.errors" class="invalid-feedback">
+                            <div *ngIf="f.subjectId.errors.required">Subject is required</div>
+                        </div>
+                        </div>
+                        <!-- Book -->
+                        <div class="col-md-2">
+                        <label><strong>Book</strong></label>
+                        <select class="form-select" formControlName="bookId"
+                            (change)="getChapterByBookId($event)"
+                            [ngClass]="{'is-invalid': submitted && f.bookId.errors}">
+                            <option disabled value="null">Select Book</option>
+                            <option *ngFor="let book of allbooks" [value]="book.id">{{ book.name }}</option>
+                        </select>
+                        <div *ngIf="submitted && f.bookId.errors" class="invalid-feedback">
+                            <div *ngIf="f.bookId.errors.required">Book is required</div>
+                        </div>
+                        </div>
+                        <!-- Chapter -->
+                        <div class="col-md-2">
+                        <label><strong>Chapter</strong></label>
+                        <select class="form-select" formControlName="chapterId"
+                            (change)="getLessonByChapter($event)"
+                            [ngClass]="{'is-invalid': submitted && f.chapterId.errors}">
+                            <option disabled value="null">Select Chapter</option>
+                            <option *ngFor="let chapter of allChapters" [value]="chapter.id">{{ chapter.chapterName }}</option>
+                        </select>
+                        <div *ngIf="submitted && f.chapterId.errors" class="invalid-feedback">
+                            <div *ngIf="f.chapterId.errors.required">Chapter is required</div>
+                        </div>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    <!-- New Fields: Question Type, Level, Weightage & Negative Weightage -->
+                    <div class="row mb-4">
+                        <!-- Lesson -->
+                        <div class="col-md-2">
+                            <label><strong>Lesson</strong></label>
+                            <select class="form-select" formControlName="lessonId"
+                                    [ngClass]="{ 'is-invalid': submitted && f.lessonId.errors }">
+                            <option disabled value="null">Select Lesson</option>
+                            <option *ngFor="let lesson of allLessons" [value]="lesson.id">{{ lesson.name }}</option>
+                            </select>
+                            <div *ngIf="submitted && f.lessonId.errors" class="invalid-feedback">
+                            <div *ngIf="f.lessonId.errors.required">Lesson is required</div>
+                            </div>
+                        </div>
+  
+
+                        <div class="col-md-2">
+                        <label><strong>Question Type</strong></label>
+                        <select class="form-select" formControlName="questionType"
+                                (change)="onQuestionTypeChange()"
+                                [ngClass]="{'is-invalid': submitted && f.questionType.errors}">
+                            <option value="" disabled>Select Question Type</option>
+                            <option value="1">MCQ</option>
+                            <option value="2">True/False</option>
+                        </select>
+                        <div *ngIf="submitted && f.questionType.errors" class="invalid-feedback">
+                            <div *ngIf="f.questionType.errors.required">Question Type is required</div>
+                        </div>
+                        </div>
+
+                        <div class="col-md-2">
+                        <label><strong>Question Level</strong></label>
+                        <select class="form-select" formControlName="questionLevel"
+                                [ngClass]="{'is-invalid': submitted && f.questionLevel.errors}">
+                            <option value="" disabled>Select Question Level</option>
+                            <option value="1">Easy</option>
+                            <option value="2">Medium</option>
+                            <option value="3">Hard</option>
+                            <option value="4">Common</option>
+                        </select>
+                        <div *ngIf="submitted && f.questionLevel.errors" class="invalid-feedback">
+                            <div *ngIf="f.questionLevel.errors.required">Question Level is required</div>
+                        </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <label><strong>Display Format</strong></label>
+                            <select class="form-select" formControlName="displayFormat" 
+                                    [ngClass]="{ 'is-invalid': submitted && f.displayFormat.errors }">
+                                <option value="" disabled>Select Display Format </option>
+                                <option value="1">1 - Series</option>
+                                <option value="2">2 - Cube</option>
+                            </select>
+                            <div *ngIf="submitted && f.displayFormat.errors" class="invalid-feedback">
+                                <div *ngIf="f.displayFormat.errors.required">Display Format is required.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label><strong>Weightage</strong></label>
+                            <input 
+                              type="number"
+                              formControlName="weightage"
+                              class="form-control"
+                              [ngClass]="{'is-invalid': submitted && f.weightage.errors}"
+                              (wheel)="disableScroll($event)"
+                              min="0.1"
+                              step="0.1"
+                            >
+                            <div *ngIf="submitted && f.weightage.errors" class="invalid-feedback">
+                              <div *ngIf="f.weightage.errors?.required">Weightage is required.</div>
+                              <div *ngIf="f.weightage.errors?.min">Weightage must be Positive number.</div>
+                            </div>
+                          </div>
+                          
+                          <div class="col-md-2">
+                            <label><strong>Negative Weightage</strong></label>
+                            <input 
+                              type="number"
+                              formControlName="negativeWeightage"
+                              class="form-control"
+                              [ngClass]="{'is-invalid': submitted && f.negativeWeightage.errors}"
+                              (wheel)="disableScroll($event)"
+                              min="0"
+                              step="0.1"
+                            >
+                            <div *ngIf="submitted && f.negativeWeightage.errors" class="invalid-feedback">
+                              <div *ngIf="f.negativeWeightage.errors?.required">Negative Weightage is required.</div>
+                              <div *ngIf="f.negativeWeightage.errors?.min">Negative Weightage must be Positive number.</div>
+                            </div>
+                          </div>
+                          
+                        
+                    </div>
+
+                    <!-- Question Text -->
+                    <div class="row mt-4">
+                        <div class="form-group">
+                        <label for="quizName"><strong>Question Name</strong></label>
+                        <ckeditor formControlName="quizName" [ngClass]="{'is-invalid': submitted && f.quizName.errors}"></ckeditor>
+                        <div *ngIf="submitted && f.quizName.errors" class="invalid-feedback">
+                            <div *ngIf="f.quizName.errors.required">Question is required</div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <!-- Options Section: Conditional Rendering based on Question Type -->
+                    <div *ngIf="quizeForm.get('questionType')?.value === '1'">
+                        <!-- For MCQ -->
+                        <div class="row mt-4" formArrayName="options">
+                        <div *ngFor="let option of options.controls; let i = index" class="col-md-6 mt-3">
+                            <label><strong>Option {{ i + 1 }}</strong></label>
+                            <ckeditor [formControlName]="i" [ngClass]="{'is-invalid': submitted && option.errors}"></ckeditor>
+                            <div *ngIf="submitted && option.errors" class="invalid-feedback">
+                            <div *ngIf="option.errors.required">Option {{ i + 1 }} is required.</div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-4 mt-4">
+                        <label><strong>Select Correct Options</strong></label>
+                        <ng-multiselect-dropdown [settings]="dropdownSettings" class="form-select" [data]="dropdownList"
+                            formControlName="correctOptions" [ngClass]="{'is-invalid': submitted && f.correctOptions.errors}">
+                        </ng-multiselect-dropdown>
+                        <div *ngIf="submitted && f.correctOptions.errors" class="invalid-feedback">
+                            <div *ngIf="f.correctOptions.errors.required">Please select at least one correct option.</div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="quizeForm.get('questionType')?.value === '2'">
+                        <!-- For True/False -->
+                        <div class="col-md-4 mt-4">
+                        <label><strong>Select Correct Answer</strong></label>
+                        <select class="form-select" formControlName="correctOptionsTF"
+                                [ngClass]="{'is-invalid': submitted && f.correctOptionsTF.errors}">
+                            <option disabled value="null">Please Select True or False</option>
+                            <option value="A">True</option>
+                            <option value="B">False</option>
+                        </select>
+                        <div *ngIf="submitted && f.correctOptionsTF.errors" class="invalid-feedback">
+                            <div *ngIf="f.correctOptionsTF.errors.required">Please select the correct answer (True/False).</div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <!-- Hint & Explain -->
+                    <div class="row mt-5">
+                        <div class="col-md-6">
+                        <label for="hint"><strong>Hint</strong></label>
+                        <ckeditor formControlName="hint" [ngClass]="{'is-invalid': submitted && f.hint.errors}"></ckeditor>
+                        <div *ngIf="submitted && f.hint.errors" class="invalid-feedback">
+                            <div *ngIf="f.hint.errors.required">Hint is required</div>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                        <label for="explain"><strong>Explain</strong></label>
+                        <ckeditor formControlName="explain" [ngClass]="{'is-invalid': submitted && f.explain.errors}"></ckeditor>
+                        <div *ngIf="submitted && f.explain.errors" class="invalid-feedback">
+                            <div *ngIf="f.explain.errors.required">Explanation is required</div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="from-group action-buttons float-end pb-2 mt-4">
+                        <button class="btn save-btn" type="submit">Update</button>
+                        <button class="btn cancel-btn" type="button" (click)="cancel()" data-bs-dismiss="modal" #closebutton>
+                        Cancel
+                        </button>
+                    </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+
+
+            <!-- table show -->
+            <h4 class="heading px-4"><img class="pb-1 me-2" src="../../../assets/icons/minus-squared.png">
+                View Questions
+            </h4>
+
+            <div class="card mx-4 p-4">
+                <div class="row ">
+                    <div class="col-md-2 mb-3">
+                        <select class="form-select" (change)="getByFilterSubjectData() " [(ngModel)]="boardId">
+                            <option value="" disabled selected>Select Board </option>
+                            <option value="{{board.id}}" *ngFor="let board of allBoards">{{board.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <select class="form-select" (change)="getByFilterSubjectData()" [(ngModel)]="mediumId">
+                            <option value="" disabled selected>Select Medium </option>
+                            <option value="{{medium.id}}" *ngFor="let medium of allMediums">{{medium.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <select class="form-select" (change)="getByFilterSubjectData()" [(ngModel)]="classId">
+                            <option value="" disabled selected>Select Class </option>
+                            <option value="{{class.id}}" *ngFor="let class of allClasses">{{class.className}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2 mb-3">
+                        <select class="form-select" [(ngModel)]="subjectId"
+                            (change)="getBookBySubjectId($event, false)">
+                            <option value="" disabled selected>Select Subject</option>
+                            <option value="{{subject.id}}" *ngFor="let subject of allSubjects">
+                                {{subject.name}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2 mb-3 ">
+                        <select class="form-select" [(ngModel)]="bookId" (change)="getChapterByBookId($event)">
+                            <option value="" disabled selected>Select Book</option>
+                            <option value="{{book.id}}" *ngFor="let book of allbooks">{{book.name}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2  mb-3">
+                        <select class="form-select" [(ngModel)]="chapterId" (change)="getLessonsBychapterId($event)">
+                            <option disabled value="">Select Chapter</option>
+                            <option *ngFor="let chapter of allChapters" value="{{chapter.id}}">
+                                {{chapter.chapterName}}</option>
+                        </select>
+                    </div>
+                    <!-- </div> -->
+
+                    <div class="col-md-2 mb-3">
+                        <!-- <div class="form-group"> -->
+                            <!-- formControlName="lessonId" -->
+                        <select
+                            class="form-select"
+                            [(ngModel)]="lessonId"
+                            
+                            [ngClass]="{
+                            'is-invalid': submitted && f.lessonId.errors
+                            }"
+                        >
+                             <option disabled selected value="">Select Lesson</option>
+                            <option
+                            *ngFor="let lesson of allLessons"
+                            value="{{ lesson.id }}"
+                            >
+                            {{ lesson.name }}
+                            </option>
+                        </select>
+                        <div
+                            *ngIf="submitted && f.lessonId.errors"
+                            class="invalid-feedback"
+                        >
+                            <div *ngIf="f.lessonId.errors.required">
+                            Lesson is required
+                            </div>
+                        </div>
+                        <!-- </div> -->
+                    </div>
+
+
+                    <div class="col mt-2 ">
+                        <button class="btn save-btn float-end" (click)=" go()"
+                        [disabled]="!boardId || !mediumId || !classId || !subjectId || !bookId || !chapterId || !lessonId">Go</button>
+                    </div>
+                </div>
+                <hr>
+
+                <!-- Only show stats if quizzes exist -->
+                <div class="row" *ngIf="hideOnSearch && allQuizes && allQuizes.length > 0">
+                    <!-- Total Questions -->
+                    <div class="col-12 mb-2 d-flex ">
+                    <h6 class="mt-2">
+                        Total Questions: <strong>{{ totalQuestions }}</strong>
+                    </h6> &nbsp;
+                    <!-- Arrow button; displays a down arrow when closed and up arrow when open -->
+                    <button class="btn btn-link p-0 m-0" (click)="toggleStats()" aria-label="Toggle Stats">
+                        <span *ngIf="!showStats">Show Detailed view&#x25BC;</span> <!-- Down arrow -->
+                        <span *ngIf="showStats">Hide &#x25B2;</span>   <!-- Up arrow -->
+                    </button>
+                    </div>
+                    <div class="col-md-10 mx-auto "> <!-- taking in middle like table -->
+                    <div *ngIf="showStats">
+                        <div class="row justify-content-center align-items-center"> <!--all cards taking in center  -->
+                            <!-- MCQ Stats -->
+                        <div class="col-12 col-md-4 mb-2">
+                        <div class="border rounded p-2 h-100">
+                            <strong>Total MCQ : {{ mcqEasy + mcqMedium + mcqHard + mcqCommon }}</strong>
+                            <ul class="list-unstyled mb-0">
+                            <li>Easy: {{ mcqEasy }}</li>
+                            <li>Medium: {{ mcqMedium }}</li>
+                            <li>Hard: {{ mcqHard }}</li>
+                            <li>Common: {{ mcqCommon }}</li>
+                            </ul>
+                        </div>
+                        </div>
+                    
+                        <!-- True/False Stats -->
+                        <div class="col-12 col-md-4 mb-2">
+                        <div class="border rounded p-2 h-100">
+                            <strong>Total True/False : {{ tfEasy + tfMedium + tfHard + tfCommon }} </strong>
+                            <ul class="list-unstyled mb-0">
+                            <li>Easy: {{ tfEasy }}</li>
+                            <li>Medium: {{ tfMedium }}</li>
+                            <li>Hard: {{ tfHard }}</li>
+                            <li>Common: {{ tfCommon }}</li>
+                            </ul>
+                        </div>
+                        </div>
+                    
+                        <!-- Type 3 Stats (if applicable) -->
+                        <!-- <div class="col-12 col-md-4 mb-2" *ngIf="type3Easy || type3Medium || type3Hard || type3Common">
+                        <div class="border rounded p-2 h-100">
+                            <strong>Type 3 Stats: {{ type3Easy + type3Medium + type3Hard + type3Common }} </strong>
+                            <ul class="list-unstyled mb-0">
+                            <li>Easy: {{ type3Easy }}</li>
+                            <li>Medium: {{ type3Medium }}</li>
+                            <li>Hard: {{ type3Hard }}</li>
+                            <li>Common: {{ type3Common }}</li>
+                            </ul>
+                        </div>
+                        </div> -->
+                        </div>
+                    </div>
+                </div>
+                </div>
+                
+
+                <div class="row">
+                    
+                    <div class="col-md-10 mx-auto ">
+
+                        <table class="table table-responsive table-hover" *ngIf="allQuizes && allQuizes.length > 0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Question</th>
+                                    <th>Question Type</th>
+                                    <th>Difficulty Level</th>
+                                    <!-- <th>Display Format</th> -->
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of allQuizes | paginate: paginationConfig; let i = index">
+                                    <td>
+                                        <ng-container *ngIf="!data.containImage; else imageTemplate">
+                                          <div class="quiz-text-overflow html-preview" [class.expanded]="expandedQuizRowIndex === i">
+                                            <div [innerHTML]="decodeHtmlEntities(data.quizName)"></div>
+                                          </div>
+                                          <a *ngIf="expandedQuizRowIndex !== i" (click)="expandedQuizRowIndex = i"><u>View more</u></a>
+                                          <a *ngIf="expandedQuizRowIndex === i" (click)="expandedQuizRowIndex = null"><u>Collapse</u></a>
+                                        </ng-container>
+                                      
+                                        <ng-template #imageTemplate>
+                                          <img [src]="data.quizName" alt="Quiz Image" width="50" height="50" style="object-fit: cover;">
+                                        </ng-template>
+                                      </td>
+                                                                         
+                                     <!-- Question Type -->
+                                    <td>
+                                        <span *ngIf="data.questionType == 1">Multiple Choice</span>
+                                        <span *ngIf="data.questionType == 2">True/False</span>
+                                    </td>
+                            
+                                    <!-- Difficulty Level -->
+                                    <td>
+                                        <span *ngIf="data.questionLevel == 1">Easy</span>
+                                        <span *ngIf="data.questionLevel == 2">Medium</span>
+                                        <span *ngIf="data.questionLevel == 3">Hard</span>
+                                        <span *ngIf="data.questionLevel == 4">Common</span>
+                                    </td>
+                            
+                                    <!-- Display Format -->
+                                    <!-- <td>
+                                        <span *ngIf="data.displayFormat == 1">Series</span>
+                                        <span *ngIf="data.displayFormat == 2">Cubes</span>
+                                    </td> -->
+                                    <td>
+                                        <div class="table-action-btn">
+                                            <button class="edit" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                (click)="EiditQuizes(data)"><i class="bi bi-pencil-fill"></i>
+                                            </button>
+                                            <button class="delete ms-2" (click)="deleteQuizes(data)">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row" *ngIf="allQuizes && allQuizes.length > 0">
+                            <div class="col-md-2" >
+                                <select class="form-select" (change)="selectPaginationSize($event)">
+                                    <option value="10" selected>10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                </select>
+                            </div>
+                            <div class="col-md-10 pt-2">
+                                <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+                            </div>
+                        </div>
+                        <!-- <div class="row" *ngIf="allQuizes && allQuizes.length > 0">
+                        <div class="col-md-2">
+                            <select class="form-select" (change)="selectPaginationSize($event)">
+                                <option value="10" selected>10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                            </select>
+                        </div>
+                        <div class="col-md-10 pt-2">
+                            <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+                        </div>
+                    </div> -->
+                        <div class="text-center" *ngIf="allQuizes?.length == 0 || !allQuizes">
+                            No Questions Found
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,145 @@
+<div class="heading p-3">
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Class Master</h5>
+            <p class="sub-heading">Setup &#8226; <span>Class Master</span></p>
+        </div>
+        <div class="offset-md-3 col-md-3">
+            <input class="form-control search-bar" [(ngModel)]="searchBox" placeholder="Search">
+        </div>
+    </div>
+</div>
+
+<div class="card-body pb-3">
+    <h4 class="heading px-4"><img class="pb-1 me-2" src="../../../assets/icons/minus-squared.png"> Create Class</h4>
+    <div class="row m-0">
+        <div class="col-md-6 p-2">
+            <div class="card px-4 py-3">
+                <div class="text-area">
+                    <form [formGroup]="classForm" (ngSubmit)="submitForm()">
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <input class="form-control col " formControlName="className"
+                                    placeholder="Enter Class Name"
+                                    [ngClass]="{ 'is-invalid': submitted && f.className.errors }">
+                                <div *ngIf="submitted && f.className.errors" class="invalid-feedback">
+                                    <div *ngIf="f.className.errors?.required">Class Name is required</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <input class="form-control col" type="number" formControlName="order"
+                                    placeholder="Enter Order" [ngClass]="{ 'is-invalid': submitted && f.order.errors }"
+                                    (wheel)="disableScroll($event)" min="1" step="1">
+                                <div *ngIf="submitted && f.order.errors" class="invalid-feedback">
+                                    <div *ngIf="f.order.errors?.required">Class Order is required</div>
+                                    <div *ngIf="f.order.errors?.pattern">Order No. must be a whole number & greater than
+                                        or equal to 1</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <label for="" class="mt-4">Thumbnail</label>
+                                <input #thumbnailInput type="file" class="form-control"
+                                    (change)="onFileChange($event, 'thumbnail')" accept="image/*">
+                                <!-- <div *ngIf="submitted && f.thumbnail.errors" class="invalid-feedback">
+                                    <div *ngIf="submitted">Thumbnail is required</div>
+                                </div> -->
+                            </div>
+
+                            <div class="col-md-3 mt-3">
+                                <img [src]="thumbnailPreview || classForm.value.thumbnail"
+                                    *ngIf="thumbnailPreview || classForm.value.thumbnail"
+                                    class="preview-image img-fluid rounded">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-9">
+                                <label for="" class="mt-4">Poster</label>
+                                <input class="form-control" type="file" #posterInput
+                                    (change)="onFileChange($event, 'poster')" accept="image/*">
+                                <!-- <div *ngIf="submitted && f.poster.errors" class="invalid-feedback">
+                                    <div *ngIf="submitted">Poster is required</div>
+                                </div> -->
+                            </div>
+
+                            <div class="col-md-3 mt-2">
+                                <img [src]="posterPreview || classForm.value.poster"
+                                    *ngIf="posterPreview || classForm.value.poster"
+                                    class="preview-image img-fluid rounded">
+                            </div>
+                        </div>
+
+                        <div class="from-group action-buttons">
+                            <button class="btn save-btn" *ngIf="formType == 'Save'"
+                                [disabled]="isProcessing">Save</button>
+                            <button class="btn save-btn" *ngIf="formType == 'Update'"
+                                [disabled]="isProcessing">Update</button>
+                            <button class="btn cancel-btn" type="button" (click)="cancel()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- table -->
+        <div class="col-md-6 p-2">
+            <div class="card p-3">
+                <table class="table table-responsive table-hover" *ngIf="allClasss && allClasss.length > 0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Class Name</th>
+                            <th class="text-center">Order</th>
+                            <th class="text-center">Thumbnail</th>
+                            <th class="text-center">Poster</th>
+                            <th class="text-center">
+                                <div class="float-center text-center action-column">
+                                    Action
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr
+                            *ngFor="let data of allClasss | paginate: paginationConfig  | customFilter:searchBox;let i = index">
+                            <td>{{data.className}} </td>
+                            <td class="text-center">{{data.order}}</td>
+                            <td class="text-center"><img [src]="data.thumbnail"
+                                    style="height: 35px; border-radius: 4px;" alt=""></td>
+                            <td class="text-center"><img [src]="data.poster" style="height: 35px; border-radius: 4px;"
+                                    alt="">
+
+                            <td class="text-center action-column">
+                                <div class="float-center table-action-btn">
+                                    <button class="edit" type="button" (click)="editClassData(data)"><i
+                                            class="bi bi-pencil-fill"></i></button> &nbsp;
+                                    <button class="delete" type="button" (click)="deleteClass(data)"
+                                        [disabled]="isUpdateMode" [ngClass]="{'disabled-blur': isUpdateMode}"><i
+                                            class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <div class="row" *ngIf="allClasss && allClasss.length > 0">
+                    <div class="col-md-2">
+                        <select class="form-select" (change)="selectPaginationSize($event)">
+                            <option value="10" selected>10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                    <div class="col-md-10 pt-2">
+                        <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+                    </div>
+                </div>
+                <!-- <div class="text-center" *ngIf="allClasss?.length == 0 || !allClasss">
+                    Not records found
+                </div> -->
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,619 @@
+<div class="heading p-3">
+    <div class="d-flex">
+        <div class="col-md-6">
+            <h5>Today's Lesson</h5>
+            <p class="sub-heading">Setup &#8226; <span>Today's Lesson</span></p>
+        </div>
+        <div class="offset-3 col-md-3">
+            <input class="form-control search-bar" [(ngModel)]="searchBox" placeholder="Search">
+        </div>
+    </div>
+</div>
+
+
+<div class="card-body pb-3">
+    <ul class="nav nav-tabs px-4" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="multimedia-tab" data-bs-toggle="tab" data-bs-target="#multimedia"
+                type="button" role="tab" aria-controls="multimedia" aria-selected="true">Create</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="lecture-tab" data-bs-toggle="tab" data-bs-target="#lecture" type="button"
+                role="tab" aria-controls="lecture" aria-selected="false">View</button>
+        </li>
+    </ul>
+
+    <div class="tab-content mt-4" id="myTabContent">
+        <div class="tab-pane fade show active" id="multimedia" role="tabpanel" aria-labelledby="multimedia-tab">
+            <h4 class="heading px-4" (click)="cancel()"><img class="pb-1 me-2"
+                    src="../../../assets/icons/minus-squared.png"> Create
+                Today's Lesson
+            </h4>
+            <div class="card-body pb-3">
+
+                <div class="d-flex px-4">
+                    <div class="col-md-5 pe-2">
+                        <div class="card px-4 py-3">
+                            <div class="text-area">
+                                <form [formGroup]="todaysLessonForm" (ngSubmit)="submitForm()">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input class="form-control" formControlName="name"
+                                                    placeholder="Enter Title"
+                                                    [ngClass]="{'is-invalid':submitted && f.name.errors }">
+                                                <div class="invalid-feedback" *ngIf="submitted && f.name.errors">
+                                                    <div>Title is required</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input class="form-control" type="date" formControlName="date"
+                                                    placeholder="Enter date"
+                                                    [ngClass]="{'is-invalid':submitted && f.date.errors }">
+                                                <div class="invalid-feedback" *ngIf="submitted && f.date.errors">
+                                                    <div>Date is required</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input class="form-control" type="time" formControlName="time"
+                                                    placeholder="Enter time"
+                                                    [ngClass]="{'is-invalid':submitted && f.name.errors }">
+                                                <div class="invalid-feedback" *ngIf="submitted && f.name.errors">
+                                                    <div>Time is required</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <select class="form-select mt-3 " formControlName="type"
+                                                    [ngClass]="{'is-invalid': submitted && f.type.errors}">
+                                                    <option value="null" disabled selected>Select Type</option>
+                                                    <option value="video">Video</option>
+                                                    <option value="curriculum">Curriculum Video</option>
+                                                    <option value="quiz">Quiz</option>
+                                                    <option value="youtube">Youtube Path</option>
+                                                    <option value="live">Live VC and Streaming</option>
+                                                </select>
+                                                <div *ngIf="submitted &&  f.type.errors" class="invalid-feedback">
+                                                    Lesson is required.
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <select class="form-select mt-3" formControlName="board"
+                                                    [ngClass]="{'is-invalid':submitted && f.board.errors}">
+                                                    <option disabled value="null">Select Board</option>
+                                                    <option *ngFor="let board of allBoards" value="{{board.name}}">
+                                                        {{board.name}}</option>
+                                                </select>
+                                                <div *ngIf="f.board.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.board.errors.required">Board is required</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <select class="form-select mt-3" formControlName="medium"
+                                                    [ngClass]="{'is-invalid':submitted && f.medium.errors}">
+                                                    <option disabled value="null">Select Medium</option>
+                                                    <option *ngFor="let medium of allMediums" value="{{medium.name}}">
+                                                        {{medium.name}}
+                                                    </option>
+                                                </select>
+                                                <div *ngIf="f.medium.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.medium.errors.required">Medium is required</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <select class="form-select mt-3" formControlName="class"
+                                                    (change)="getByFilterSubjectData(false)"
+                                                    [ngClass]="{'is-invalid':submitted && f.class.errors}">
+                                                    <option disabled value="null">Select Class</option>
+                                                    <option *ngFor="let class of allClasses"
+                                                        value="{{class.className}}">
+                                                        {{class.className}}
+                                                    </option>
+                                                </select>
+                                                <div *ngIf="f.class.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.class.errors.required">Class is required</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <select class="form-select mt-3" formControlName="subject"
+                                                    (change)="getBookBySubjectId($event, false)"
+                                                    [ngClass]="{'is-invalid':submitted && f.subject.errors}">
+                                                    <option disabled value="null">Select Subject</option>
+                                                    <option *ngFor="let subject of allSubjects"
+                                                        value="{{subject.name}}">
+                                                        {{subject.name}}
+                                                    </option>
+                                                </select>
+                                                <div *ngIf="f.subject.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.subject.errors.required">Subject is required</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <select class="form-select mt-3" formControlName="book"
+                                                    (change)="getChapterByBookId($event,false)"
+                                                    [ngClass]="{'is-invalid':submitted && f.book.errors}">
+                                                    <option disabled value="null">Select Book</option>
+                                                    <option *ngFor="let book of allBooks" value="{{book.name}}">
+                                                        {{book.name}}</option>
+                                                </select>
+                                                <div *ngIf="f.book.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.book.errors.required">Book is required</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <select class="form-select mt-3" formControlName="chapter"
+                                                    [ngClass]="{'is-invalid':submitted && f.chapter.errors}">
+                                                    <option disabled value="null">Select Chapter</option>
+                                                    <option *ngFor="let chapter of allChapters"
+                                                        value="{{chapter.chapterName}}">
+                                                        {{chapter.chapterName}}</option>
+                                                </select>
+                                                <div *ngIf="f.chapter.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.chapter.errors.required">chapter is required</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <select class="form-select mt-3 " formControlName="studioName"
+                                                    [ngClass]="{'is-invalid': submitted && f.studioName.errors}">
+                                                    <option value="null" disabled selected>Select studio</option>
+                                                    <option *ngFor="let studio of allStudios"
+                                                        value="{{studio.studioName}}">
+                                                        {{studio.studioName}}</option>
+                                                </select>
+                                                <div *ngIf="submitted &&  f.studioName.errors" class="invalid-feedback">
+                                                    Studio is required.
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" formControlName="order"
+                                                    placeholder="Enter order"
+                                                    [ngClass]="{'is-invalid':submitted && f.order.errors }">
+                                                <div *ngIf="submitted && f.order.errors" class="invalid-feedback">
+                                                    <div>Order is required</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" formControlName="presenterName"
+                                                    placeholder="Enter Presenter Name"
+                                                    [ngClass]="{'is-invalid':submitted && f.presenterName.errors }">
+                                                <div *ngIf="submitted && f.presenterName.errors"
+                                                    class="invalid-feedback">
+                                                    <div>Presenter Name is required</div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- <div formArrayName="lessonArray">
+                                            <div *ngFor="let item of lessonArray.controls; let i = index" [formGroupName]="i"> -->
+
+                                    </div>
+                                    <div class="from-group action-buttons">
+                                        <button class="btn save-btn" *ngIf="formType == 'Save'"
+                                            type="submit">Save</button>
+                                        <button class="btn save-btn" *ngIf="formType == 'Update'">Update</button>
+                                        <button class="btn cancel-btn" type="button" (click)="cancel()">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 2nd col -->
+                    <div class="col-md-7 ps-2">
+                        <div class="card p-3">
+
+                            <nav>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+                                        (click)="getTypeofLesson('Multimedia')" data-bs-target="#nav-home" type="button"
+                                        role="tab" aria-controls="nav-home" aria-selected="true">Videos</button>
+
+                                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
+                                        (click)="getTypeofLesson('Lecture')" data-bs-target="#nav-profile" type="button"
+                                        role="tab" aria-controls="nav-profile" aria-selected="false">Curriculum</button>
+
+                                    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-contact" type="button" role="tab"
+                                        aria-controls="nav-contact" aria-selected="false">Quiz</button>
+                                </div>
+                            </nav>
+
+                            <div class="tab-content" id="nav-tabContent">
+                                <!-- Videos -->
+                                <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                                    aria-labelledby="nav-home-tab">
+                                    <div class="col-md-12">
+                                        <div class="card m-2 ">
+                                            <table class="table table-responsive table-hover">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th>Sl</th>
+                                                        <th>Image</th>
+                                                        <th>Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let data of allTypes">
+                                                        <td>
+                                                            <input type="radio" class="mt-0" name="videoType"
+                                                                (change)="checkRadio('video')" [(ngModel)]="videoPath"
+                                                                [value]="data.path">
+                                                        </td>
+                                                        <td><img src="https://delhivsk.com/content/uploads/episodes/154.jpg"
+                                                                width="80px" alt=""></td>
+                                                        <td>{{data.lessionName}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="text-danger" *ngIf="submitted && videoPath == ''">
+                                                <div>Please select any one video path..</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- curriculum -->
+                                <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+                                    aria-labelledby="nav-profile-tab">
+
+                                    <div class="col-md-12">
+                                        <div class="card m-2 ">
+                                            <table class="table table-responsive table-hover">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th>Sl</th>
+                                                        <th>Image</th>
+                                                        <th>Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let data of allTypes">
+                                                        <td>
+                                                            <input type="radio" class="mt-0" name="curriculumPath"
+                                                                (change)="checkRadio('curriculum')"
+                                                                [(ngModel)]="curriculumPath" [value]="data.path">
+                                                        </td>
+                                                        <td><img src="https://delhivsk.com/content/uploads/episodes/154.jpg"
+                                                                width="80px" alt=""></td>
+                                                        <td>{{data.lessionName}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <!-- <div class="row" *ngIf="allPlanVideos && allPlanVideos.length > 0">
+                                                <div class="col-md-2">
+                                                    <select class="form-select" (change)="selectPaginationSize($event)">
+                                                        <option value="5">5</option>
+                                                        <option value="10" selected>10</option>
+                                                        <option value="15">15</option>
+                                                        <option value="20">20</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-10 pt-2">
+                                                    <pagination-controls
+                                                        (pageChange)="pageChangeEvent($event)"></pagination-controls>
+                                                </div>
+                                            </div> -->
+                                            <!-- <div class="invalid-feedback" *ngIf="submitted && curriculumPath == ''">
+                                                <div>Order is required</div>
+                                            </div> -->
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- Quiz -->
+                                <div class="tab-pane fade" id="nav-contact" role="tabpanel"
+                                    aria-labelledby="nav-contact-tab">
+
+                                    <div class="col-md-12">
+                                        <div class="card m-2 ">
+                                            <table class="table table-responsive table-hover">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th>Sl</th>
+                                                        <th>Image</th>
+                                                        <th>Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" class="mt-0" name="" id="">
+                                                        </td>
+                                                        <td><img src="https://delhivsk.com/content/uploads/episodes/137.jpg"
+                                                                width="80px" alt=""></td>
+                                                        <td>Chapter 1 Quiz</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" class="mt-0" name="" id="">
+                                                        </td>
+                                                        <td><img src="https://delhivsk.com/content/uploads/episodes/155.jpg"
+                                                                width="80px" alt=""></td>
+                                                        <td>Change of state of matter</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="row" *ngIf="allPlanVideos && allPlanVideos.length > 0">
+                                                <div class="col-md-2">
+                                                    <select class="form-select" (change)="selectPaginationSize($event)">
+                                                        <option value="5">5</option>
+                                                        <option value="10" selected>10</option>
+                                                        <option value="15">15</option>
+                                                        <option value="20">20</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-10 pt-2">
+                                                    <pagination-controls
+                                                        (pageChange)="pageChangeEvent($event)"></pagination-controls>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="lecture" role="tabpanel" aria-labelledby="lecture-tab">
+            <h4 class="heading px-4" (click)="cancel()"><img class="pb-1 me-2"
+                    src="../../../assets/icons/minus-squared.png">
+                Plan videos view
+            </h4>
+            <div class="col-md-10 offset-1">
+                <div class="card m-4 p-4">
+                    <table class="table table-responsive table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Index</th>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Time</th>
+                                <th>Class</th>
+                                <th>Subject</th>
+                                <th>Book</th>
+                                <th>Chapter</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of allPlanVideos | customFilter:searchBox;let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{data.name}}</td>
+                                <td>{{data.type}}</td>
+                                <td>{{data.time}}</td>
+                                <td>{{data.class}}</td>
+                                <td>{{data.subject}}</td>
+                                <td>{{data.book}}</td>
+                                <td>{{data.chapter}}</td>
+                                <td>
+                                    <div class="table-action-btn">
+                                        <button class="edit" type="button" (click)="getPlanVideoById(data)"
+                                            title="Edit"><i class="bi bi-pencil-fill" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal"></i></button>
+                                        &nbsp;
+                                        <button class="delete" type="button" (click)="deletePlanVideo(data)"
+                                            title="Delete"><i class="bi bi-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <select class="form-select" (change)="selectPaginationSize($event)">
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                            </select>
+                        </div>
+                        <div class="col-md-10 pt-2">
+                            <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal right fade" id="exampleModal" data-bs-backdrop="static" data-keyboard="false" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen float-end">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Today's Lesson</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="cancel()"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="todaysLessonForm" (ngSubmit)="submitForm()">
+                        <div class="form-group">
+                            <div class="row">
+
+                                <div class="form-group col-md-3">
+                                    <label for="">Board</label>
+                                    <select class="form-select mt-3" formControlName="board"
+                                        [ngClass]="{'is-invalid':submitted && f.board.errors}">
+                                        <option disabled value="null">Select Board</option>
+                                        <option *ngFor="let board of allBoards" value="{{board.name}}">
+                                            {{board.name}}</option>
+                                    </select>
+                                    <div *ngIf="f.board.errors" class="invalid-feedback">
+                                        <div *ngIf="f.board.errors.required">Board is required</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="">Medium</label>
+                                    <select class="form-select mt-3" formControlName="medium"
+                                        [ngClass]="{'is-invalid':submitted && f.medium.errors}">
+                                        <option disabled value="null">Select Medium</option>
+                                        <option *ngFor="let medium of allMediums" value="{{medium.name}}">
+                                            {{medium.name}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="f.medium.errors" class="invalid-feedback">
+                                        <div *ngIf="f.medium.errors.required">Medium is required</div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="">Class</label>
+                                    <select class="form-select mt-3" formControlName="class"
+                                        (change)="getByFilterSubjectData(false)"
+                                        [ngClass]="{'is-invalid':submitted && f.class.errors}">
+                                        <option disabled value="null">Select Class</option>
+                                        <option *ngFor="let class of allClasses" value="{{class.className}}">
+                                            {{class.className}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="f.class.errors" class="invalid-feedback">
+                                        <div *ngIf="f.class.errors.required">Class is required</div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="">Subject</label>
+                                    <select class="form-select mt-3" formControlName="subject"
+                                        (change)="getBookBySubjectId($event, true)"
+                                        [ngClass]="{'is-invalid':submitted && f.subject.errors}">
+                                        <option disabled value="null">Select Subject</option>
+                                        <option *ngFor="let subject of allSubjects" value="{{subject.name}}">
+                                            {{subject.name}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="f.subject.errors" class="invalid-feedback">
+                                        <div *ngIf="f.subject.errors.required">Subject is required</div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3 mt-3">
+                                    <label for="">Book</label>
+                                    <select class="form-select mt-3" formControlName="book"
+                                        (change)="getChapterByBookId($event,true)"
+                                        [ngClass]="{'is-invalid':submitted && f.book.errors}">
+                                        <option disabled value="null">Select Book</option>
+                                        <option *ngFor="let book of allBooks" value="{{book.name}}">
+                                            {{book.name}}</option>
+                                    </select>
+                                    <div *ngIf="f.book.errors" class="invalid-feedback">
+                                        <div *ngIf="f.book.errors.required">Book is required</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-3 mt-3">
+                                    <label for="">Chapter</label>
+                                    <select class="form-select mt-3" formControlName="chapter"
+                                        [ngClass]="{'is-invalid':submitted && f.chapter.errors}">
+                                        <option disabled value="null">Select Chapter</option>
+                                        <option *ngFor="let chapter of allChapters" value="{{chapter.chapterName}}">
+                                            {{chapter.chapterName}}</option>
+                                    </select>
+                                    <div *ngIf="f.chapter.errors" class="invalid-feedback">
+                                        <div *ngIf="f.chapter.errors.required">chapter is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+
+                                <div class="form-group col-md-3">
+                                    <label for="">Title</label>
+                                    <input class="form-control" formControlName="name" placeholder="Enter Title"
+                                        [ngClass]="{'is-invalid':submitted && f.name.errors }">
+                                    <div class="invalid-feedback" *ngIf="submitted && f.name.errors">
+                                        <div>Title is required</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="">Date</label>
+                                    <input class="form-control" type="date" formControlName="date"
+                                        placeholder="Enter date" [ngClass]="{'is-invalid':submitted && f.date.errors }">
+                                    <div class="invalid-feedback" *ngIf="submitted && f.date.errors">
+                                        <div>Date is required</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="">Time</label>
+                                    <input class="form-control" type="time" formControlName="time"
+                                        placeholder="Enter time" [ngClass]="{'is-invalid':submitted && f.name.errors }">
+                                    <div class="invalid-feedback" *ngIf="submitted && f.name.errors">
+                                        <div>Time is required</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="">Type</label>
+                                    <select class="form-select mt-3 " formControlName="type"
+                                        [ngClass]="{'is-invalid': submitted && f.type.errors}">
+                                        <option value="null" disabled selected>Select Type</option>
+                                        <option value="video">Video</option>
+                                        <option value="curriculum">Curriculum Video</option>
+                                        <option value="quiz">Quiz</option>
+                                        <option value="youtube">Youtube Path</option>
+                                        <option value="live">Live VC and Streaming</option>
+                                    </select>
+                                    <div *ngIf="submitted &&  f.type.errors" class="invalid-feedback">
+                                        Lesson is required.
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-3 mt-3">
+                                    <label for="">Studio Name</label>
+                                    <select class="form-select mt-3 " formControlName="studioName"
+                                        [ngClass]="{'is-invalid': submitted && f.studioName.errors}">
+                                        <option value="null" disabled selected>Select studio</option>
+                                        <option *ngFor="let studio of allStudios" value="{{studio.studioName}}">
+                                            {{studio.studioName}}</option>
+                                    </select>
+                                    <div *ngIf="submitted &&  f.studioName.errors" class="invalid-feedback">
+                                        Studio is required.
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-3 mt-3">
+                                    <label for="">Order</label>
+                                    <input class="form-control" type="text" formControlName="order"
+                                        placeholder="Enter order"
+                                        [ngClass]="{'is-invalid':submitted && f.order.errors }">
+                                    <div *ngIf="submitted && f.order.errors" class="invalid-feedback">
+                                        <div>Order is required</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-3 mt-3">
+                                    <label for="">Presenter Name</label>
+                                    <input class="form-control" type="text" formControlName="presenterName"
+                                        placeholder="Enter Presenter Name"
+                                        [ngClass]="{'is-invalid':submitted && f.presenterName.errors }">
+                                    <div *ngIf="submitted && f.presenterName.errors" class="invalid-feedback">
+                                        <div>Presenter Name is required</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- <div formArrayName="lessonArray">
+                                    <div *ngFor="let item of lessonArray.controls; let i = index" [formGroupName]="i"> -->
+
+                        </div>
+                        <div class="from-group action-buttons">
+                            <button class="btn save-btn" *ngIf="formType == 'Save'" type="submit">Save</button>
+                            <button class="btn save-btn" *ngIf="formType == 'Update'">Update</button>
+                            <button class="btn cancel-btn" type="button" data-bs-dismiss="modal"
+                                (click)="cancel()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

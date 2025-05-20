@@ -1,0 +1,28 @@
+.card-body .form-control,
+.form-select {
+    font-family: 'Inter', sans-serif;
+    height: 50px !important;
+    color: gray;
+    font-size: 13px;
+    font-weight: 600;
+}
+/* For the Board Name column to wrap the text */
+.medium-name {
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+}
+
+/* For the Action column to have a fixed width */
+.action-column {
+    width: 120px; /* Set a fixed width for the Action column */
+}
+
+/* Add this CSS for blur effect */
+.disabled-blur {
+    filter: blur(3px);  /* Adjust the blur intensity as needed */
+    pointer-events: none; /* Prevent clicks on the button */
+  }
+
+.delete[disabled] {
+cursor: not-allowed; /* Show not-allowed cursor when button is disabled */
+}

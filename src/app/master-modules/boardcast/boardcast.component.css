@@ -1,0 +1,17 @@
+/* live-broadcast.component.css */
+
+.play-button {
+    background-color: #2884EF;
+    color: #ffffff;
+    font-size: 18px; 
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px; 
+    transition: background-color 0.3s ease; 
+  
+    &:hover {
+      background-color: #1f6cd3;
+    }
+  }
+  

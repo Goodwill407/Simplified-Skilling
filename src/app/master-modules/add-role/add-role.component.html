@@ -1,0 +1,81 @@
+<div class="heading p-3">
+    <div class="d-flex">
+        <div class="col-md-6">
+            <h5>Role Master</h5>
+            <p class="sub-heading">Setup &#8226; <span>Role Master</span></p>
+        </div>
+        <div class="offset-3 col-md-3">
+            <input class="form-control search-bar" [(ngModel)]="searchBox" placeholder="Search">
+        </div>
+    </div>
+</div>
+
+<div class="card-body pb-3">
+    <h4 class="heading px-4"><img class="pb-1 me-2" src="../../../assets/icons/minus-squared.png"> Create Role</h4>
+    <div class="d-flex px-4">
+        <div class="col-md-6 pe-2">
+            <div class="card px-4 py-3">
+                <div class="text-area ">
+                    <!-- form start 1-->
+                    <form [formGroup]="mainForm" (ngSubmit)="submitForm()">
+                        <div class="row ">
+                            <div class="col-md-9 form-group">
+                                <input class="form-control" formControlName="role" placeholder="Role role"
+                                    [ngClass]="{ 'is-invalid': submitted && f.role.errors }">
+                                <div *ngIf="submitted && f.role.errors" class="invalid-feedback">
+                                    <div *ngIf="f.role.errors?.required">role is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="from-group action-buttons">
+                            <button class="btn save-btn" *ngIf="formtype == 'Save'">Save</button>
+                            <button class="btn save-btn" *ngIf="formtype == 'Update'">Update</button>
+                            <button class="btn cancel-btn" type="button" (click)="cancelRole()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 2nd col -->
+        <div class="col-md-6 ps-2">
+            <div class="card p-3">
+                <table class="table table-responsive table-hover" *ngIf="allRoles && allRoles.length > 0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Role</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let data of allRoles | paginate: paginationConfig | customFilter:searchBox;let i = index">
+                            <td>{{data.role}}
+                                <div class="float-end table-action-btn">
+                                    <button class="edit" type="button" (click)="editRoleData(data)"><i
+                                            class="bi bi-pencil-fill"></i></button> &nbsp;
+                                    <button class="delete" type="button" (click)="deleteRoleData(data)"><i
+                                            class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row" *ngIf="allRoles && allRoles.length > 0">
+                    <div class="col-md-2">
+                        <select class="form-select" (change)="selectPaginationSize($event)">
+                            <option value="10" selected>10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                    <div class="col-md-10 pt-2">
+                        <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+                    </div>
+                </div>
+                <div class="text-center" *ngIf="!allRoles || allRoles?.length == 0">
+                    Not records found
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

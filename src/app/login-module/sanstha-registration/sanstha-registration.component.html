@@ -1,0 +1,124 @@
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                    class="img-fluid" alt="Sample image">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <h3 class="text-center bg-primary text-white p-2">Sansthan Registration</h3>
+                <form [formGroup]="registrationForm" (ngSubmit)="submitForm()">
+
+                    <div class="form-outline mb-4">
+                        <input type="text" class="form-control" placeholder="Enter sanstha name"
+                            formControlName="sansthanName"
+                            [ngClass]="{ 'is-invalid': submitted && f.sansthanName.errors }" />
+                        <div *ngIf="submitted && f.sansthanName.errors" class="invalid-feedback">
+                            <div *ngIf="f.sansthanName.errors.required">Field is required</div>
+                        </div>
+                    </div>
+
+                    <select class="form-select" formControlName="state"
+                        [ngClass]="{ 'is-invalid': submitted && f.state.errors }" (change)="getDistrictById($event)">
+                        <option value="" disabled selected>Select state </option>
+                        <option value="{{state.id}}" *ngFor="let state of allStates">{{state.stateName}}</option>
+                        <div *ngIf="submitted && f.state.errors" class="invalid-feedback">
+                            <div *ngIf="f.state.errors.required">Field is required</div>
+                        </div>
+                    </select>
+
+                    <select class="form-select" formControlName="registrationDist"
+                        [ngClass]="{ 'is-invalid': submitted && f.registrationDist.errors }">
+                        <option value="" disabled selected>Select district </option>
+                        <option value="{{district.name}}" *ngFor="let district of allDistricts">{{district.name}}
+                        </option>
+                        <div *ngIf="submitted && f.registrationDist.errors" class="invalid-feedback">
+                            <div *ngIf="f.registrationDist.errors.required">Field is required</div>
+                        </div>
+                    </select>
+
+                    <div class="form-outline">
+                        <input type="text" class="form-control" formControlName="mobNumber"
+                            [ngClass]="{ 'is-invalid': submitted && f.mobNumber.errors }"
+                            placeholder="Enter mobile number" />
+                        <div *ngIf="submitted && f.mobNumber.errors" class="invalid-feedback">
+                            <div *ngIf="f.mobNumber.errors.required">Field is required</div>
+                            <div *ngIf="f.mobNumber.hasError('minlength')">Minimum 10 digits allowed</div>
+                            <div *ngIf="f.mobNumber.hasError('maxlength')">Maximum 10 digits allowed</div>
+                            <div *ngIf="f.mobNumber.errors.pattern">Only digits allowed</div>
+                        </div>
+                    </div>
+
+                    <div class="form-outline">
+                        <input type="text" class="form-control" formControlName="userID"
+                            [ngClass]="{ 'is-invalid': submitted && f.userID.errors }" placeholder="Enter user id" />
+                        <div *ngIf="submitted && f.userID.errors" class="invalid-feedback">
+                            <div *ngIf="f.userID.errors.required">Field is required</div>
+                        </div>
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-3">
+                        <input type="password" id="form3Example4" formControlName="temporaryPassword"
+                            class="form-control" placeholder="Enter password"
+                            [ngClass]="{ 'is-invalid': submitted && f.temporaryPassword.errors }" />
+                        <div *ngIf="submitted && f.temporaryPassword.errors" class="invalid-feedback">
+                            <div *ngIf="f.temporaryPassword.errors.required">Password is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-outline">
+                        <input type="password" class="form-control" formControlName="password"
+                            placeholder="Enter confirm passowrd"
+                            [ngClass]="{ 'is-invalid': f.temporaryPassword.value !== f.password.value }" />
+                        <div *ngIf="f.temporaryPassword.value !== f.password.value" class="invalid-feedback">
+                            <div>Password did not match</div>
+                        </div>
+                    </div>
+
+                    <div class="text-center text-lg-start mt-2 pt-2">
+                        <button class="btn btn-success otp-btn">Verify & Get
+                            OTP</button>
+                    </div>
+
+                    <button type="button" class="btn btn-primary d-none" #closeAddExpenseModal data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        Launch demo modal
+                    </button>
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Verify OTP</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-outline" *ngIf="f.otp">
+                                        <input type="text" class="form-control" formControlName="otp"
+                                            [ngClass]="{ 'is-invalid': submitted && f.otp.errors }"
+                                            placeholder="Enter OTP" />
+                                        <div *ngIf="submitted && f.otp.errors" class="invalid-feedback">
+                                            <div *ngIf="f.otp.errors.required">Field is required</div>
+                                            <div *ngIf="f.otp.hasError('minlength')">Minimum 6 digits allowed</div>
+                                            <div *ngIf="f.otp.hasError('maxlength')">Maximum 6 digits allowed</div>
+                                            <div *ngIf="f.otp.errors.pattern">Only digits allowed</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary save-btn border-0" (click)="register()">Register</button>
+                                    <button type="button" class="btn btn-secondary cancel-btn border-0"
+                                        data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

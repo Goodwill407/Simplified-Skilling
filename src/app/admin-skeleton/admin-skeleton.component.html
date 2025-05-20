@@ -1,0 +1,317 @@
+<div class="wrapper">
+    <div class="sidebarMenu" [ngClass]="status ? 'darSideBar' : 'genisSideBar'">
+
+        <div class="sideBarUst text-center pt-3">
+            <div class="logo">
+                <img src="../assets/favicon.png">
+                <span class="ms-2"
+                    [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">LMS</span>
+            </div>
+        </div>
+
+        <div class="sideBarOrta mt-3">
+            <ul class="nav flex-column">
+
+                <!-- studio -->
+                <li class="nav-item" *ngIf="user.role == 'studio'">
+                    <a class="nav-link" routerLink="/dashboard/studio-dashboard"
+                        [ngClass]="statusLink ? '':'sidebar-align-content'" routerLinkActive="active">
+                        <span [ngClass]="statusLink ? '':'image-icon'">
+                            <img src="../assets/icons/icon5.png" alt="">
+                        </span>
+                        <span [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="user.role == 'studio'">
+                    <a class="nav-link" routerLink="/dashboard/todays-lesson"
+                        [ngClass]="statusLink ? '':'sidebar-align-content'" routerLinkActive="active">
+                        <span [ngClass]="statusLink ? '':'image-icon'">
+                            <img src="../assets/icons/icon2.png" alt="">
+                        </span>
+                        <span [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Today's
+                            Lesson</span>
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="user.role == 'studio'">
+                    <a class="nav-link" routerLink="/dashboard/live-streaming"
+                        [ngClass]="statusLink ? '':'sidebar-align-content'" routerLinkActive="active">
+                        <span [ngClass]="statusLink ? '':'image-icon'">
+                            <img src="../assets/icons/icon3.png" alt="">
+                        </span>
+                        <span [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Live VC &
+                            Streaming</span>
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="user.role == 'studio'">
+                    <a class="nav-link" routerLink="/dashboard/presenter-management"
+                        [ngClass]="statusLink ? '':'sidebar-align-content'" routerLinkActive="active">
+                        <span [ngClass]="statusLink ? '':'image-icon'">
+                            <img src="../assets/icons/icon4.png" alt="">
+                        </span>
+                        <span [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Presenter
+                            management</span>
+                    </a>
+                </li>
+
+                <!-- School -->
+                <li class="nav-item" *ngIf="user.role == 'school'">
+                    <a class="nav-link" routerLink="/dashboard/school-dashboard" routerLinkActive="active">
+                        <span class="image-icon">
+                            <img src="../assets/icons/icon2.png" alt="">
+                        </span>
+                        <span class="ms-2"
+                            [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" *ngIf="user.role == 'school'">
+                    <a class="nav-link" routerLink="/dashboard/add-student" routerLinkActive="active">
+                        <span class="image-icon">
+                            <img src="../assets/icons/icon3.png" alt="">
+                        </span>
+                        <span class="ms-2"
+                            [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Students</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" *ngIf="user.role == 'school'">
+                    <a class="nav-link" routerLink="/dashboard/student-addmission" routerLinkActive="active">
+                        <span class="image-icon">
+                            <img src="../assets/icons/icon4.png" alt="">
+                        </span>
+                        <span class="ms-2"
+                            [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Admission</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" *ngIf="user.role == 'school'">
+                    <a class="nav-link" routerLink="/dashboard/add-staff" routerLinkActive="active">
+                        <span class="image-icon">
+                            <img src="../assets/icons/icon5.png" alt="">
+                        </span>
+                        <span class="ms-2"
+                            [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Staff</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" *ngIf="user.role == 'school'">
+                    <a class="nav-link" routerLink="/dashboard/assign-teacher" routerLinkActive="active">
+                        <span class="image-icon">
+                            <img src="../assets/icons/icon6.png" alt="">
+                        </span>
+                        <span class="ms-2"
+                            [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Assign
+                            teacher</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" *ngIf="user.role == 'school'">
+                    <a class="nav-link" routerLink="/dashboard/student-attendance" routerLinkActive="active">
+                        <span class="image-icon">
+                            <img src="../assets/icons/icon7.png" alt="">
+                        </span>
+                        <span class="ms-2"
+                            [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Student
+                            attendance</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" *ngIf="user.role == 'school'">
+                    <a class="nav-link" routerLink="/dashboard/quiz-report" routerLinkActive="active">
+                        <span class="image-icon">
+                            <img src="../assets/icons/icon8.png" alt="">
+                        </span>
+                        <span class="ms-2"
+                            [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Quiz
+                            report</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" *ngIf="user.role == 'school'">
+                    <a class="nav-link" routerLink="/dashboard/attendance-report" routerLinkActive="active">
+                        <span class="image-icon">
+                            <img src="../assets/icons/icon9.png" alt="">
+                        </span>
+                        <span class="ms-2"
+                            [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Attendance
+                            report</span>
+                    </a>
+                </li>
+
+                <!-- Teacher -->
+                <li class="nav-item" *ngIf="user.role == 'Teacher'">
+                    <a class="nav-link" routerLink="/dashboard/teacher-dashboard" routerLinkActive="active">
+                        <span class="image-icon">
+                            <img src="../assets/icons/icon10.png" alt="">
+                        </span>
+                        <span class="ms-2"
+                            [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" *ngIf="user.role == 'Teacher'">
+                    <a class="nav-link" routerLink="/dashboard/std-attendance" routerLinkActive="active">
+                        <span class="image-icon">
+                            <img src="../assets/icons/icon11.png" alt="">
+                        </span>
+                        <span class="ms-2"
+                            [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Student
+                            Attendance</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" *ngIf="user.role == 'Teacher'">
+                    <a class="nav-link" routerLink="/dashboard/quiz-report" routerLinkActive="active">
+                        <span class="image-icon">
+                            <img src="../assets/icons/icon12.png" alt="">
+                        </span>
+                        <span class="ms-2"
+                            [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Quiz
+                            Report</span>
+                    </a>
+                </li>
+
+                <!-- Superadmin Dashboard -->
+                <li class="nav-item" *ngIf="user.role == 'superadmin'" title="Dashboard">
+                    <a class="nav-link" routerLink="/dashboard/superadmin-dashboard"
+                        [ngClass]="statusLink ? '':'sidebar-align-content'" routerLinkActive="active">
+                        <span [ngClass]="statusLink ? '':'image-icon'">
+                            <img src="../assets/icons/icon12.png" alt="">
+                        </span>
+                        <span 
+                            [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Dashboard</span>
+                    </a>
+                </li>
+
+                <!-- // Masters -->
+                <li class="nav-item" *ngIf="user.role == 'superadmin'" title="Masters">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#masterCollapse"
+                        [ngClass]="statusLink ? '':'sidebar-align-content'" (click)="clickEventTwice()">
+                        <span [ngClass]="statusLink ? '':'image-icon'">
+                            <img src="../assets/icons/icon5.png" alt="">
+                        </span>
+                        <span class="left-align" [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Masters</span>
+                    </a>
+                    <div class="collapse multi-collapse" id="masterCollapse">
+                        <ul>
+                            <li title="Board master">
+                                <a href="" routerLink="/dashboard/board-master" routerLinkActive="active">Board</a>
+                            </li>
+                            <li title="Medium master">
+                                <a href="" routerLink="/dashboard/medium-master" routerLinkActive="active">Medium</a>
+                            </li>
+                            <li title="Class master">
+                                <a href="" routerLink="/dashboard/class-master" routerLinkActive="active">Class</a>
+                            </li>
+                            <li title="Subject master">
+                                <a href="" routerLink="/dashboard/subject-master" routerLinkActive="active">Subject</a>
+                            </li>
+                            <li title="Book master">
+                                <a href="" routerLink="/dashboard/book-master" routerLinkActive="active">Book</a>
+                            </li>
+                            <li title="Chapter master">
+                                <a href="" routerLink="/dashboard/chapter-master" routerLinkActive="active">Chapter</a>
+                            </li>
+                            <li title="Lesson master">
+                                <a href="" routerLink="/dashboard/lesson-master" routerLinkActive="active">Lesson</a>
+                            </li>
+                            <!-- <li title="Mapping">
+                                <a href="" routerLink="/dashboard/mapping" routerLinkActive="active">Mapping</a>
+                            </li>
+                            <li title="Search pin">
+                                <a href="" routerLink="/dashboard/pincode" routerLinkActive="active">Search Pin</a>
+                            </li> -->
+                        </ul>
+                    </div>
+                </li>
+
+                <!-- // Content -->
+                <li class="nav-item" *ngIf="user.role == 'superadmin'" title="Content">
+                    <a class="nav-link" data-bs-toggle="collapse" [ngClass]="statusLink ? '':'sidebar-align-content'"
+                        href="#contentCollapse" (click)="clickEventTwice()">
+                        <span [ngClass]="statusLink ? '':'image-icon'">
+                            <img src="../assets/icons/icon4.png" alt="">
+                        </span>
+                        <span [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Content</span>
+                    </a>
+                    <div class="collapse multi-collapse" id="contentCollapse">
+                        <ul>
+                            <li title="Videos">
+                                <a href="" routerLink="/dashboard/videos" routerLinkActive="active">Multimedia</a>
+                            </li>
+                            <li title="Lecture">
+                                <a href="" routerLink="/dashboard/Lecture" routerLinkActive="active">Lecture</a>
+                            </li>
+                            <!-- <li title="Plan videos">
+                                <a href="" routerLink="/dashboard/plan-videos" routerLinkActive="active">Plan Videos</a>
+                            </li> -->
+                            <li title="Quiz">   
+                                <a href="" routerLink="/dashboard/quiz" routerLinkActive="active">Question Bank</a>
+                            </li>
+                            <!-- <li title="Bulk-Quiz">
+                                <a href="" routerLink="/dashboard/bulkquiz" routerLinkActive="active">Bulk-Quiz</a>
+                            </li> -->
+                            <li title="E-book">
+                                <a href="" routerLink="/dashboard/e-Book" routerLinkActive="active">E-Book</a>
+                            </li>
+                            <li title="Quick recap">
+                                <a href="" routerLink="/dashboard/quick-recap" routerLinkActive="active">Quick recap</a>
+                            </li>
+                            <li title="Homework">
+                                <a href="" routerLink="/dashboard/homework" routerLinkActive="active">Homework</a>
+                            </li>
+                            <li title="Case Studies">
+                                <a href="" routerLink="/dashboard/case-studies" routerLinkActive="active">Case Studies</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <!-- Live Classes -->
+                <li class="nav-item" *ngIf="user.role == 'superadmin'" title="Live Classes">
+                    <a class="nav-link" data-bs-toggle="collapse" [ngClass]="statusLink ? '' : 'sidebar-align-content'"
+                        href="#liveClassesCollapse" (click)="clickEventTwice()">
+                        <span [ngClass]="statusLink ? '' : 'image-icon'">
+                            <img src="../assets/icons/icon11.png" alt="">
+                        </span>
+                        <span [ngClass]="statusLink ? 'navLinkDar' : 'navLinkGenis animated fadeInRight'">Live Classes</span>
+                    </a>
+                    <div class="collapse multi-collapse" id="liveClassesCollapse">
+                        <ul>
+                            <li title="Plan Video">
+                                <a routerLink="/dashboard/plan-videos" routerLinkActive="active">Plan Video</a>
+                            </li>
+                            <li title="View Schedules">
+                                <a routerLink="/dashboard/view-schedules" routerLinkActive="active">View Schedules</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- Page Content  -->
+    <div id="content">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn shadow" (click)="clickEvent()">
+                    <img src="../assets/icons/toggle.png">
+                </button>
+                <div class="logo d-flex">
+                    <h5 class="me-3 mb-0">{{user.name}} | </h5>
+                    <i class="bi bi-box-arrow-right h2 text-danger" (click)="logout()"></i>
+                </div>
+            </div>
+        </nav>
+
+        <router-outlet></router-outlet>
+
+
+    </div>
+</div>

@@ -1,0 +1,146 @@
+<div class="heading p-3">
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Mapping</h5>
+            <p class="sub-heading">Setup &#8226; <span>Mapping</span></p>
+        </div>
+        <div class="offset-md-3 col-md-3">
+            <input class="form-control search-bar" [(ngModel)]="searchBox" placeholder="Search">
+        </div>
+    </div>
+</div>
+
+<div class="card-body pb-3">
+    <h4 class="heading px-4"><img class="pb-1 me-2" src="../../../assets/icons/minus-squared.png"> Create Mapping</h4>
+    <div class="row m-0">
+        <div class="col-md-6 p-2">
+            <div class="card px-4 py-3">
+                <div class="text-area">
+                    <form [formGroup]="mappingForm" (ngSubmit)="onSave()">
+                        <div class="row">
+                            <div class="col-md-9 form-group">
+                                <input type="text" class="form-control" formControlName="name"
+                                    [ngClass]="{'is-invalid':submitted && f.name.errors}"
+                                    placeholder="Enter class name">
+                                <div *ngIf="f.name.errors" class="invalid-feedback">
+                                    <div *ngIf="f.name.errors.required">Class name is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-9 form-group">
+                                <select class="form-select " formControlName="boardId"
+                                    [ngClass]="{'is-invalid':submitted && f.boardId.errors}"
+                                    (change)="getByFilterSubjectData()">
+                                    <option value="null" disabled selected>Select Board</option>
+                                    <option *ngFor="let board of BoardsList" value="{{board.id}}">{{board.name}}
+                                    </option>
+                                </select>
+                                <div *ngIf="f.boardId.errors" class="invalid-feedback">
+                                    <div *ngIf="f.boardId.errors.required">Board is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-9 form-group">
+                                <select class="form-select mt-3" formControlName="mediumId"
+                                    [ngClass]="{'is-invalid':submitted && f.mediumId.errors}">
+                                    <option value="null" disabled selected>Select Medium</option>
+                                    <option *ngFor="let medium of MediumList" value="{{medium.id}}">{{medium.name}}
+                                    </option>
+                                </select>
+                                <div *ngIf="f.mediumId.errors" class="invalid-feedback">
+                                    <div *ngIf="f.mediumId.errors.required">Medium is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-9 form-group">
+                                <select class="form-select mt-3" formControlName="classId"
+                                    [ngClass]="{'is-invalid':submitted && f.classId.errors}"
+                                    (change)="getByFilterSubjectData()">
+                                    <option value="null" disabled selected>Select Class</option>
+                                    <option *ngFor="let class of ClassList" value="{{class.id}}">{{class.className}}
+                                    </option>
+                                </select>
+                                <div *ngIf="f.classId.errors" class="invalid-feedback">
+                                    <div *ngIf="f.classId.errors.required">Class is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-9 form-group">
+                                <select class="form-select mt-3" formControlName="subjectId"
+                                    (change)="getBookBySubjectId($event)"
+                                    [ngClass]="{'is-invalid':submitted && f.subjectId.errors}">
+                                    <option value="null" disabled selected>Select Subject</option>
+                                    <option *ngFor="let subject of SubjectList" value="{{subject.id}}">{{subject.name}}
+                                    </option>
+                                </select>
+                                <div *ngIf="f.subjectId.errors" class="invalid-feedback">
+                                    <div *ngIf="f.subjectId.errors.required">Subject is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-9 form-group">
+                                <select class="form-select mt-3" formControlName="bookId"
+                                    [ngClass]="{'is-invalid':submitted && f.bookId.errors}">
+                                    <option value="null" disabled selected>Select Book</option>
+                                    <option *ngFor="let book of BooksList" value="{{book.id}}">{{book.name}}</option>
+                                </select>
+                                <div *ngIf="f.bookId.errors" class="invalid-feedback">
+                                    <div *ngIf="f.bookId.errors.required">Book is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="from-group action-buttons">
+                            <button class="btn save-btn" type="submit" *ngIf="formType == 'Save'">Save</button>
+                            <button class="btn save-btn" type="submit" *ngIf="formType == 'Update'">Update</button>
+                            <button class="btn cancel-btn" type="button" (click)="cancelBtn()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- table  -->
+        <div class="col-md-6 p-2">
+            <div class="card p-3">
+                <table class="table table-responsive table-hover" *ngIf="allMappingList && allMappingList.length > 0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Sr no</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of allMappingList| customFilter:searchBox;let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{data.name}}</td>
+                            <td>
+                                <div class="table-action-btn">
+                                    <button class="edit" type="button" (click)="editMapping(data)"><i
+                                            class="bi bi-pencil-fill"></i></button> &nbsp;
+                                    <button class="delete" type="button" (click)="deleteMapping(data.id)"><i
+                                            class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="text-center" *ngIf="allMappingList?.length == 0 || !allMappingList">
+                    No records found
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

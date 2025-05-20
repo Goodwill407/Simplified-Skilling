@@ -1,0 +1,10 @@
+<div>
+    <h4>Not Schedule the lecture </h4>
+    <h2>{{videoTitle}}</h2>
+    <button  *ngIf="!videoPlaying" (click)="playVideo()"
+      class="play-button" >Play Video</button>
+    <video *ngIf="videoPlaying" width="640" height="360" controls autoplay>
+      <source [src]="videoPath" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+</div>

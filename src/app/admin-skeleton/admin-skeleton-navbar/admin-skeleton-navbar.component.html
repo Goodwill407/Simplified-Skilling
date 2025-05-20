@@ -1,0 +1,27 @@
+<button class="pb-4 toggle-btn" (click)="toggleSwitchNavbar()">
+    <img src="../assets/icons/toggle.png">
+</button>
+<div class="d-flex">
+    <div class="col-md-6 ps-5">
+        <h5 class="pt-4 text-secondary">LMS</h5>
+
+        <!-- <div>
+            <img class="search-icon pb-1" src="../assets/icons/magnifier.png">
+            <input class="search-bar mt-3 ms-2" placeholder="Search anything here" [(ngModel)]="searchBox">
+            <div class="search-options ms-4 p-1 mt-1" *ngIf="searchBox">
+                <p class="p-1" *ngFor="let option of searchOptions" (click)="resetBox()"
+                    routerLink="{{option.route}}">{{option.name}}</p>
+            </div>
+        </div> -->
+    </div>
+    <div class="col-md-6">
+        <!-- <img src="../assets/icons/settings.png">
+        <img src="../assets/icons/bell.png">
+        <img class="user" src="../assets/icons/avatar.png"> -->
+        <!-- <select #langSelect (change)="translate.use(langSelect.value)" class="w-25">
+            <option *ngFor="let lang of translate.getLangs()" [value]="lang"
+                [selected]="lang === translate.currentLang">{{ lang }}</option>
+        </select> -->
+        <img class="float-end mt-4 me-4" src="../assets/icons/logout.png" (click)="logout()">
+    </div>
+</div>

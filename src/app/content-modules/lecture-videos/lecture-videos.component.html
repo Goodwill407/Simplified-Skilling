@@ -1,0 +1,727 @@
+<div class="heading p-3">
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Lecture Video</h5>
+            <p class="sub-heading">Setup &#8226; <span>Lecture Video</span></p>
+        </div>
+        <div class="offset-md-3 col-md-3" *ngIf="activeTab === 'view'">
+            <input class="form-control search-bar" [(ngModel)]="searchBox" (ngModelChange)="onSearchChange()"  placeholder="Search">
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card-body pb-3">
+    <ul class="nav nav-tabs px-4" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="create-tab" data-bs-toggle="tab" data-bs-target="#create" type="button"
+                role="tab" aria-controls="create" aria-selected="true" (click)="setActiveTab('create')">Create</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="view-tab" data-bs-toggle="tab" data-bs-target="#view" type="button" role="tab"
+                aria-controls="view" aria-selected="false" (click)="setActiveTab('view')">View</button>
+        </li>
+    </ul>
+    <div class="tab-content mt-4" id="myTabContent">
+        <div class="tab-pane fade show active" id="create" role="tabpanel" aria-labelledby="create-tab">
+            <h4 class="heading px-4">
+                <img class="pb-1 me-2" src="../../../assets/icons/minus-squared.png"> Create
+                Lecture
+            </h4>
+            <div class="row m-0">
+                <div class="col-md-12 p-2">
+                    <div class="card px-4 py-3">
+                        <div class="text-area">
+                            <form [formGroup]="multimediaForm" (ngSubmit)="submitForm()">
+
+                                <div class="row mb-4">
+                                    <div class="col-md-2">
+                                        <select class="form-select mt-3" formControlName="boardId"
+                                            (change)="getByFilterSubjectDataselect()"
+                                            [ngClass]="{ 'is-invalid': submitted && f.boardId.errors }">
+                                            <option disabled value="null">Select Board</option>
+                                            <option *ngFor="let board of allBoards" value="{{board.id}}">
+                                                {{board.name}}
+                                            </option>
+                                        </select>
+                                        <div *ngIf="submitted && f.boardId.errors" class="invalid-feedback">
+                                            <div *ngIf="f.boardId.errors.required">Board is required</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-3" formControlName="mediumId"
+                                                (change)="getByFilterSubjectDataselect()"
+                                                [ngClass]="{ 'is-invalid': submitted && f.mediumId.errors }">
+                                                <option disabled value="null">Select Medium</option>
+                                                <option *ngFor="let medium of allMediums" value="{{medium.id}}">
+                                                    {{medium.name}}
+                                                </option>
+                                            </select>
+                                            <div *ngIf="submitted && f.mediumId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.mediumId.errors.required">Medium is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-3" formControlName="classId"
+                                                (change)="getByFilterSubjectDataselect()"
+                                                [ngClass]="{ 'is-invalid': submitted && f.classId.errors }">
+                                                <option disabled  value="null">Select Class</option>
+                                                <option *ngFor="let class of allClasses" value="{{class.id}}">
+                                                    {{class.className}}
+                                                </option>
+                                            </select>
+                                            <div *ngIf="submitted && f.classId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.classId.errors.required">Class is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-3" formControlName="subjectId"
+                                                [ngClass]="{ 'is-invalid': submitted && f.subjectId.errors }"
+                                                (change)="getBookBySubjectId($event, false)">
+                                                <option disabled value="null">Select Subject</option>
+                                                <option *ngFor="let subject of allSubjects" value="{{subject.id}}">
+                                                    {{subject.name}}
+                                                </option>
+                                            </select>
+                                            <div *ngIf="submitted && f.subjectId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.subjectId.errors.required">Subject is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-3" formControlName="bookId"
+                                                [ngClass]="{ 'is-invalid': submitted && f.bookId.errors }"
+                                                (change)="getChapterByBookId($event)">
+                                                <option selected disabled value="null">Select Book</option>
+                                                <option *ngFor="let book of allbooks" value="{{book.id}}">
+                                                    {{book.name}}</option>
+                                            </select>
+                                            <div *ngIf="submitted && f.bookId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.bookId.errors.required">Book is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select class="form-select mt-3" formControlName="chapterId"
+                                            (change)="getLessonByChapterId($event)"
+                                                [ngClass]="{ 'is-invalid': submitted && f.chapterId.errors }">
+                                                <option selected disabled value="null">Select Chapter</option>
+                                                <option *ngFor="let chapter of allChapters" value="{{chapter.id}}">
+                                                    {{chapter.chapterName}}</option>
+                                            </select>
+                                            <div *ngIf="submitted && f.chapterId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.chapterId.errors.required">Class is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                          <select class="form-select mt-3" formControlName="lessonId"
+                                            [ngClass]="{ 'is-invalid': submitted && f.lessonId.errors }"
+                                            (change)="onLessonChange($event)">
+                                            <option disabled value="null" selected>Select Lesson</option>
+                                            <option *ngFor="let lesson of allLessons" [value]="lesson.id">{{ lesson.name }}</option>
+                                          </select>
+                                          <div *ngIf="submitted && f.lessonId.errors" class="invalid-feedback">
+                                            Lesson is required
+                                          </div>
+                                        </div>
+                                    </div>                                      
+                                      
+                                    
+                                </div>
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <input class="form-control" type="number" formControlName="order"
+                                            placeholder="Order" [ngClass]="{'is-invalid':submitted && f.order.errors }"
+                                            (wheel)="disableScroll($event)" min="1" step="1">
+                                        <div *ngIf="submitted && f.order.errors" class="invalid-feedback">
+                                            <div *ngIf="f.order.errors?.required">Order is required</div>
+                                            <div *ngIf="f.order.errors?.pattern">Order No. must be a whole number & greater than or equal to 1</div>
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input class="form-control" formControlName="lessionName" placeholder="Title"
+                                            [ngClass]="{'is-invalid':submitted && f.lessionName.errors }" >
+                                        <div class="invalid-feedback" *ngIf="submitted && f.lessionName.errors">
+                                            Title is required
+                                        </div>
+                                    </div>
+                                
+                                    <!-- <div class="col-md-10">
+                                        <label *ngIf="formType == 'Update'" class="mt-3">Description</label>
+                                        <textarea formControlName="description" class="form-control"
+                                            placeholder="Enter Description" 
+                                            [ngClass]="{'is-invalid': submitted && f.description.errors, 'mt-0': formType == 'Update', 'mt-3': formType != 'Update'}"></textarea>
+                                        <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                            <div *ngIf="f.description.errors.required">Description is required</div>
+                                        </div>
+                                    </div> -->
+                                </div>  
+                                
+                                <div class="row">
+                                    <!-- First Column -->
+                                    <div class="col-md-6">
+                                        <div class="row pt-4 align-items-center">
+                                            <div class="col-md-12">
+                                                <label>Mobile Video (Low Resolution)</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input class="form-control" formControlName="path" placeholder="Video path"
+                                                    [ngClass]="{'is-invalid':submitted && f.path.errors}">
+                                                <div class="invalid-feedback" *ngIf="submitted && f.path.errors">Path is required</div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select class="form-select" formControlName="videoType"
+                                                    [ngClass]="{'is-invalid':submitted && f.videoType.errors}">
+                                                    <option value="null" selected>Select type</option>
+                                                    <option value="youtube">YouTube</option>
+                                                    <option value="vimeo">Vimeo</option>
+                                                    <option value="amazon">Amazon S3</option>
+                                                    <option value="mkv">MKV</option>
+                                                    <option value="webm">Webm</option>
+                                                    <option value="m3u8">M3u8</option>
+                                                    <option value="embed">Embed</option>
+                                                </select>
+                                                <div class="invalid-feedback" *ngIf="submitted && f.videoType.errors">
+                                                    <div *ngIf="f.videoType.errors.required">Video type is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                
+                                        <div class="row pt-4 align-items-center">
+                                            <div class="col-md-12">
+                                                <label>TV Video (High Resolution)</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input class="form-control" formControlName="mobileVideoPath" placeholder="Video path"
+                                                    [ngClass]="{'is-invalid':submitted && f.mobileVideoPath.errors}">
+                                                <div class="invalid-feedback" *ngIf="submitted && f.mobileVideoPath.errors">Path is required</div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select class="form-select" formControlName="mobileVideoType"
+                                                    [ngClass]="{'is-invalid':submitted && f.mobileVideoType.errors}">
+                                                    <option value="null" selected>Select type</option>
+                                                    <option value="youtube">YouTube</option>
+                                                    <option value="vimeo">Vimeo</option>
+                                                    <option value="amazon">Amazon S3</option>
+                                                    <option value="mkv">MKV</option>
+                                                    <option value="webm">Webm</option>
+                                                    <option value="m3u8">M3u8</option>
+                                                    <option value="embed">Embed</option>
+                                                </select>
+                                                <div class="invalid-feedback" *ngIf="submitted && f.mobileVideoType.errors">
+                                                    <div *ngIf="f.mobileVideoType.errors.required">Video type is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <!-- Second Column -->
+                                    <!-- <div class="col-md-6">
+                                        <div class="row pt-4 align-items-center">
+                                            <div class="col-md-8">
+                                                <label>Portrait Image</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input class="form-control" formControlName="icon1" placeholder="Portrait image"
+                                                    [ngClass]="{'is-invalid':submitted && f.icon1.errors}">
+                                                <div class="invalid-feedback" *ngIf="submitted && f.icon1.errors">Portrait image is required</div>
+                                            </div>
+                                            <div class="col-md-4 d-flex align-items-center">
+                                                <img [src]="f.icon1.value" *ngIf="!f.icon1.errors" class="img-fluid preview-image" alt="Not available">
+                                            </div>
+                                        </div>
+                                
+                                        <div class="row pt-4 align-items-center">
+                                            <div class="col-md-8">
+                                                <label>Landscape Image</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input class="form-control" formControlName="icon2" placeholder="Landscape image"
+                                                    [ngClass]="{'is-invalid':submitted && f.icon2.errors}">
+                                                <div class="invalid-feedback" *ngIf="submitted && f.icon2.errors">Landscape image is required</div>
+                                            </div>
+                                            <div class="col-md-4 d-flex align-items-center">
+                                                <img [src]="f.icon2.value" *ngIf="!f.icon2.errors" class="img-fluid preview-image" alt="Not available">
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                                
+
+                                <div class="from-group action-buttons">
+                                    <button class="btn save-btn" *ngIf="formType == 'Save'">Save</button>
+                                    <button class="btn cancel-btn" type="button" (click)="cancel()">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="view" role="tabpanel" aria-labelledby="view-tab">
+            <!-- =========== -->
+            <!-- Modal -->
+            <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+                <div class="modal-dialog modal-fullscreen float-end">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                {{multimediaForm.value.lessionName}}
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                                (click)="cancel()"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form [formGroup]="multimediaForm" (ngSubmit)="submitForm()">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Board</label>
+                                            <select class="form-select mt-3" formControlName="boardId"
+                                            (change)="getByFilterSubjectDataselect()"
+                                                [ngClass]="{ 'is-invalid': submitted && f.boardId.errors }">
+                                                <option disabled value="null">Select Board</option>
+                                                <option *ngFor="let board of allBoards" value="{{board.id}}">
+                                                    {{board.name}}
+                                                </option>
+                                            </select>
+                                            <div *ngIf="submitted && f.boardId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.boardId.errors.required">Board is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Medium</label>
+                                            <select class="form-select mt-3" formControlName="mediumId"
+                                            (change)="getByFilterSubjectDataselect()"
+                                                [ngClass]="{ 'is-invalid': submitted && f.mediumId.errors }">
+                                                <option disabled value="null">Select Medium</option>
+                                                <option *ngFor="let medium of allMediums" value="{{medium.id}}">
+                                                    {{medium.name}}
+                                                </option>
+                                            </select>
+                                            <div *ngIf="submitted && f.mediumId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.mediumId.errors.required">Medium is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mt-2">
+                                            <label for="">Class</label>
+                                            <select class="form-select mt-3" formControlName="classId"
+                                            (change)="getByFilterSubjectDataselect()"
+                                                [ngClass]="{ 'is-invalid': submitted && f.classId.errors }">
+                                                <option disabled value="null">Select Class</option>
+                                                <option *ngFor="let class of allClasses" value="{{class.id}}">
+                                                    {{class.className}}
+                                                </option>
+                                            </select>
+                                            <div *ngIf="submitted && f.classId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.classId.errors.required">Class is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group mt-2">
+                                            <label for="">Subject</label>
+                                            <select class="form-select mt-3" formControlName="subjectId"
+                                                [ngClass]="{ 'is-invalid': submitted && f.subjectId.errors }"
+                                                (change)="getBookBySubjectId($event, false)">
+                                                <option disabled value="null">Select Subject</option>
+                                                <option *ngFor="let subject of allSubjects" value="{{subject.id}}">
+                                                    {{subject.name}}
+                                                </option>
+                                            </select>
+                                            <div *ngIf="submitted && f.subjectId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.subjectId.errors.required">Subject is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mt-2">
+                                            <label for="">Book</label>
+                                            <select class="form-select mt-3" formControlName="bookId"
+                                                [ngClass]="{ 'is-invalid': submitted && f.bookId.errors }"
+                                                (change)="getChapterByBookId($event)">
+                                                <option disabled value="null">Select Book</option>
+                                                <option *ngFor="let book of allbooks" value="{{book.id}}">
+                                                    {{book.name}}</option>
+                                            </select>
+                                            <div *ngIf="submitted && f.bookId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.bookId.errors.required">Book is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group mt-2">
+                                            <label for="">Chapter</label>
+                                            <select class="form-select mt-3" formControlName="chapterId"
+                                                (change)="getLessonByChapterId($event)"
+                                                [ngClass]="{ 'is-invalid': submitted && f.chapterId.errors }">
+                                                <option disabled value="null">Select Chapter</option>
+                                                <option *ngFor="let chapter of allChapters" value="{{chapter.id}}">
+                                                    {{chapter.chapterName}}</option>
+                                            </select>
+                                            <div *ngIf="submitted && f.chapterId.errors" class="invalid-feedback">
+                                                <div *ngIf="f.chapterId.errors.required">Class is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group mt-2">
+                                          <label for="">Lesson</label>
+                                          <select class="form-select mt-3" formControlName="lessonId"
+                                            [ngClass]="{ 'is-invalid': submitted && f.lessonId.errors }">
+                                            <option disabled value="null">Select Lesson</option>
+                                            <option *ngFor="let lesson of allLessons" [value]="lesson.id">{{ lesson.name }}</option>
+                                          </select>
+                                          <div *ngIf="submitted && f.lessonId.errors" class="invalid-feedback">
+                                            Lesson is required
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+
+                                </div>
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="">Lesson</label>
+                                        <input class="form-control" formControlName="lessionName" placeholder="Title"
+                                            [ngClass]="{'is-invalid':submitted && f.lessionName.errors }">
+                                        <div class="invalid-feedback" *ngIf="submitted && f.lessionName.errors">
+                                            Title is required
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label for="">Order</label>
+                                        <input class="form-control" type="number" formControlName="order"
+                                            placeholder="Order" [ngClass]="{'is-invalid':submitted && f.order.errors }">
+                                        <div class="invalid-feedback" *ngIf="submitted && f.order.errors">
+                                            Order is required
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-md-4">
+                                        <label for="">Portrait image</label>
+                                        <input class="form-control" formControlName="icon1" placeholder="Portrait image"
+                                            [ngClass]="{'is-invalid':submitted && f.icon1.errors }">
+                                        <div class="invalid-feedback" *ngIf="submitted && f.icon1.errors">
+                                            Portrait image is required
+                                        </div> -->
+                                        <!-- <label class="drop-container" id="dropcontainer"
+                                            [ngClass]="{'uploaded-image-border':!f.icon1.errors }">
+                                            <span class="drop-title" *ngIf="f.icon1.errors">Upload
+                                                icon
+                                                1</span>
+                                            <span class="drop-title-uploaded" *ngIf="!f.icon1.errors">Uploaded
+                                                icon 1</span>
+                                            <input id="1" type="file" (change)="onFileSelect($event)" accept="image/*"
+                                                required>
+                                        </label>
+                                        <div class="invalid-feedback-thumbnail" *ngIf="submitted && f.icon1.errors">
+                                            Icon 1 is required
+                                        </div> -->
+                                    <!-- </div>
+
+                                    <div class="col-md-2">
+                                        <img [src]="f.icon1.value" class="img-fluid" alt="Not available"
+                                        class="img-fluid preview-image"
+                                            formControlName="icon1">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="" *ngIf="formType == 'Update'" class="mt-3">Description</label>
+                                        <textarea formControlName="description" class="form-control"
+                                            placeholder="Enter Description" 
+                                            [ngClass]="{'is-invalid': submitted && f.description.errors, 'mt-0': formType == 'Update', 'mt-3': formType != 'Update'}"></textarea>
+                                        <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                            <div *ngIf="f.description.errors.required">Description is required</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pt-2">
+                                        <label for="">Landscape image</label>
+                                        <input class="form-control" formControlName="icon2" placeholder="Landscape image"
+                                            [ngClass]="{'is-invalid':submitted && f.icon2.errors }">
+                                        <div class="invalid-feedback" *ngIf="submitted && f.icon2.errors">
+                                            Landscape image is required
+                                        </div> -->
+                                        <!-- <label class="drop-container" id="dropcontainer"
+                                            [ngClass]="{'uploaded-image-border':!f.icon2.errors }">
+                                            <span class="drop-title" *ngIf="f.icon2.errors">Upload
+                                                icon
+                                                2</span>
+                                            <span class="drop-title-uploaded" *ngIf="!f.icon2.errors">Uploaded
+                                                icon 2</span>
+                                            <input id="2" type="file" (change)="onFileSelect2($event)" accept="image/*"
+                                                required>
+                                        </label>
+                                        <div class="invalid-feedback-thumbnail" *ngIf="submitted && f.icon2.errors">
+                                            Icon 2 is required
+                                        </div> -->
+                                    <!-- </div>
+                                      
+                                    
+                                    
+                                    <div class="col-md-2 pt-2">
+                                        <img [src]="f.icon2.value" class="img-fluid" alt="Not available"
+                                        class="img-fluid preview-image"
+                                            formControlName="icon2">
+                                    </div> -->
+
+                                </div>
+
+                                
+                                <hr>
+                                <h6 class="heading px-4">
+                                    Mobile Video (Low Resolution)
+                                </h6>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label for="">Video Path</label>
+                                    <input class="form-control" formControlName="mobileVideoPath" placeholder="Video path"
+                                      [ngClass]="{'is-invalid': submitted && f.mobileVideoPath.errors }">
+                                    <div class="invalid-feedback" *ngIf="submitted && f.mobileVideoPath.errors">
+                                      Path is required
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label for="">Video Type</label>
+                                      <select class="form-select mt-3" formControlName="mobileVideoType"
+                                        [ngClass]="{ 'is-invalid': submitted && f.mobileVideoType.errors }">
+                                        <option value="null" selected>Select type</option>
+                                        <option value="youtube">YouTube</option>
+                                        <option value="vimeo">Vimeo</option>
+                                        <option value="amazon">Amazon S3</option>
+                                        <option value="mkv">MKV</option>
+                                        <option value="webm">Webm</option>
+                                        <option value="m3u8">M3u8</option>
+                                        <option value="embed">Embed</option>
+                                      </select>
+                                      <div *ngIf="submitted && f.mobileVideoType.errors" class="invalid-feedback">
+                                        <div *ngIf="f.mobileVideoType.errors.required">Video type is required</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                                <br>
+                                
+                                <h6 class="heading px-4">
+                                  TV Videos (High Resolution)
+                                </h6>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label for="">Video Path</label>
+                                    <input class="form-control" formControlName="path" placeholder="Video path"
+                                      [ngClass]="{'is-invalid': submitted && f.path.errors }">
+                                    <div class="invalid-feedback" *ngIf="submitted && f.path.errors">
+                                      Path is required
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label for="">Video Type</label>
+                                      <select class="form-select mt-3" formControlName="videoType"
+                                        [ngClass]="{ 'is-invalid': submitted && f.videoType.errors }">
+                                        <option value="null" selected>Select type</option>
+                                        <option value="youtube">YouTube</option>
+                                        <option value="vimeo">Vimeo</option>
+                                        <option value="amazon">Amazon S3</option>
+                                        <option value="mkv">MKV</option>
+                                        <option value="webm">Webm</option>
+                                        <option value="m3u8">M3u8</option>
+                                        <option value="embed">Embed</option>
+                                      </select>
+                                      <div *ngIf="submitted && f.videoType.errors" class="invalid-feedback">
+                                        <div *ngIf="f.videoType.errors.required">Video type is required</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                
+
+                                <div class="from-group action-buttons float-end">
+                                    <button class="btn cancel-btn" type="button" (click)="cancel()"
+                                        data-bs-dismiss="modal" #closebutton>Cancel</button>
+                                    <button class="btn save-btn">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- =========== -->
+            <!-- table show -->
+            <h4 class="heading px-4"><img class="pb-1 me-2" src="../../../assets/icons/minus-squared.png">
+                Lecture Video View
+            </h4>
+
+            <div class="card mx-4 p-4">
+                <div class="row ">
+                    <div class="col-md-2 mb-3">
+                        <select class="form-select" [(ngModel)]="boardId" (change)="getByFilterSubjectData()">
+                            <option value="" disabled selected>Select Board </option>
+                            <option value="{{board.id}}" *ngFor="let board of allBoards">{{board.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <select class="form-select" [(ngModel)]="mediumId" (change)="getByFilterSubjectData()">
+                            <option value="" disabled selected>Select Medium </option>
+                            <option value="{{medium.id}}" *ngFor="let medium of allMediums">{{medium.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <select class="form-select" [(ngModel)]="classId" (change)="getByFilterSubjectData()">
+                            <option value="" disabled selected>Select Class </option>
+                            <option value="{{class.id}}" *ngFor="let class of allClasses">{{class.className}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2 mb-3">
+                        <select class="form-select" [(ngModel)]="subjectId"
+                            (change)="getBookBySubjectId($event, false)">
+                            <option value="" disabled selected>Select Subject</option>
+                            <option value="{{subject.id}}" *ngFor="let subject of allSubjects">
+                                {{subject.name}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2 mb-3 ">
+                        <select class="form-select" [(ngModel)]="bookId" (change)="getChapterByBookId($event)">
+                            <option value="" disabled selected>Select Book</option>
+                            <option value="{{book.id}}" *ngFor="let book of allbooks">{{book.name}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2  mb-3">
+                        <select class="form-select" [(ngModel)]="chapterId" (change)="getLessonByChapterId($event)">
+                            <option disabled selected value="">Select Chapter</option>
+                            <option *ngFor="let chapter of allChapters" value="{{chapter.id}}">
+                                {{chapter.chapterName}}</option>
+                        </select>
+                    </div>
+                    <!-- </div> -->
+
+                    <div class="col-md-2 mb-3">
+                        <select class="form-select" [(ngModel)]="lessonId">
+                          <option disabled [selected]="!lessonId" value="">Select Lesson</option>
+                          <option *ngFor="let lesson of allLessons" value="{{lesson.id}}">
+                            {{lesson.name}}
+                          </option>
+                        </select>
+                      </div>
+                      
+
+
+                    <div class="col mt-2 ">
+                        <button class="btn save-btn float-end" (click)="go()"
+                        [disabled]="!boardId || !mediumId || !classId || !subjectId || !bookId || !chapterId || !lessonId">Go</button>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="row ">
+                    <!-- <div class="col-1"></div> -->
+                    <div class="col-md-10 mx-auto">
+
+                        <table class="table table-responsive table-hover"
+                            *ngIf="allMultimedia && allMultimedia.length > 0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Order</th>
+                                    <!-- <th>Icon</th> -->
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of allMultimedia  | paginate: paginationConfig ">
+                                    <!--  | paginate: paginationConfig -->
+                                    <td>{{data.lessionName}}</td>
+                                    <td>{{data.order}}</td>
+                                    <!-- <td>
+                                        <img [src]="data.icon1"
+                                            alt="Not available" class="img-fluid" width="60">
+                                    </td> -->
+                                    <td>
+                                        <div class="table-action-btn">
+                                            <button class="edit" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                            (click)="getMultimediaById(data)"><i class="bi bi-pencil-fill"></i>
+                                            </button>
+                                            <button class="delete ms-2" (click)="deleteMultimedia(data)">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row" *ngIf="allMultimedia && allMultimedia.length > 0">
+                            <div class="col-md-2" >
+                                <select class="form-select" (change)="selectPaginationSize($event)">
+                                    <option value="10" selected>10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                </select>
+                            </div>
+                            <div class="col-md-10 pt-2">
+                                <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+                            </div>
+                        </div>
+                        <!-- <div class="row" *ngIf="allQuizes && allQuizes.length > 0">
+                        <div class="col-md-2">
+                            <select class="form-select" (change)="selectPaginationSize($event)">
+                                <option value="10" selected>10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                            </select>
+                        </div>
+                        <div class="col-md-10 pt-2">
+                            <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+                        </div>
+                    </div> -->
+                        <div class="text-center" *ngIf="allMultimedia?.length == 0 || !allMultimedia">
+                            No Lecture Videos Found
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

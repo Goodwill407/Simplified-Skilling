@@ -1,0 +1,45 @@
+button {
+    display: block;
+}
+
+@media only screen and (min-width: 600px) {
+    .hamburger {
+        display: none;
+    }
+}
+
+.collapse button {
+    /* width: 50px; */
+    /* height: 45px; */
+    color: gray
+}
+
+.collapse button:hover {
+    background-color: #33306D;
+    color: #fff;
+}
+
+button+button img:hover {
+    filter: brightness(0) invert(1);
+}
+
+/* filter: brightness(0) invert(1); */
+
+.sub_menu:focus {
+    list-style: none;
+    font-size: medium;
+
+}
+
+.active {
+    background-color: #33306D;
+    color: #fff !important;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    overflow-y: auto;
+    background-color: #fff;
+}

@@ -1,0 +1,16 @@
+.quiz-text-overflow {
+    white-space: nowrap;
+    width: 25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+.html-preview {
+    max-height: 100px;
+    overflow: hidden;
+  }
+  .html-preview.expanded {
+    max-height: none;
+  }
+  

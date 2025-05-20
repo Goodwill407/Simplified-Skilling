@@ -1,0 +1,31 @@
+
+  .case-text-overflow {
+    display: block;
+    max-width: 500px;
+    height: 24px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+  
+    /* override block-level elements inside */
+    * {
+      display: inline !important;
+      white-space: nowrap !important;
+    }
+  }
+  
+  /* For the Action column to have a fixed width */
+.action-column {
+    width: 200px; /* Set a fixed width for the Action column */
+}
+
+.btn-circle {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 40px; /* Centers the icon vertically */
+  }  

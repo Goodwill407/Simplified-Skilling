@@ -1,0 +1,36 @@
+/* For the Board Name column to wrap the text */
+.board-name {
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+}
+
+/* For the Action column to have a fixed width */
+.action-column {
+    width: 120px; /* Set a fixed width for the Action column */
+}
+
+/* Add this CSS for blur effect */
+.disabled-blur {
+    filter: blur(3px);  /* Adjust the blur intensity as needed */
+    pointer-events: none; /* Prevent clicks on the button */
+  }
+
+.delete[disabled] {
+cursor: not-allowed; /* Show not-allowed cursor when button is disabled */
+}
+
+/* Style the tooltip */
+.disabled-tooltip {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+  }
