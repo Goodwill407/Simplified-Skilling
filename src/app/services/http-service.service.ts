@@ -7,7 +7,8 @@ import { Injectable } from '@angular/core';
 export class HttpServiceService {
   // apiURL = 'http://192.168.0.103:4001/v1/';
   // apiURL = 'http://143.244.136.201:4001/v1/'; // development
-   apiURL = 'http://64.227.147.34:4001/v1/'; // productionn
+  //  apiURL = 'http://64.227.147.34:4001/v1/'; // productionn of LMS
+   apiURL = 'http://64.227.151.181:3005/v1/'; // New URL for Simplified Skilling
 
   constructor(private http: HttpClient) { }
 
