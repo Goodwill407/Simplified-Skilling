@@ -8,7 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'lms';
+  title = 'simplified-skilling';
   toggleButton: boolean | undefined;
   authentication: boolean = false;
 

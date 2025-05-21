@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/lms",
+            "outputPath": "dist/simplified-skilling",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -66,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "lms:build:production"
+              "browserTarget": "simplified-skilling:build:production"
             },
             "development": {
-              "browserTarget": "lms:build:development"
+              "browserTarget": "simplified-skilling:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -77,7 +77,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "lms:build"
+            "browserTarget": "simplified-skilling:build"
           }
         },
         "test": {
